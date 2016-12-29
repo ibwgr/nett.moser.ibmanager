@@ -17,6 +17,7 @@ public class StringVerifier {
         reader = new MachineNumberReader("C:\\tcommc\\exe\\machinnr.in");
     }
 
+    // Konstruktor um zum Testen einen Fake-Reader zu injizieren
     public StringVerifier(MachineNumberReader reader) {
         this.reader = reader;
     }
