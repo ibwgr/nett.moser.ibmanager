@@ -1,0 +1,144 @@
+package controller;
+
+import model.MachineNumberReader;
+import model.ReadWriteException;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.experimental.runners.Enclosed;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+
+import static org.junit.Assert.*;
+
+/**
+ * Testet die Methode getMachineNumber()
+ *
+ * Created by Nett on 29.12.2016.
+ * @author Nett
+ */
+@RunWith(Enclosed.class)
+public class StringVerifierTest {
+
+    public static class getMachineNumber {
+
+        /**
+         * Testet ob eine gültige Maschinennummer wie gewünscht wieder
+         * zurückgegeben wird
+         */
+        @Test
+        public void mockitoFake_validMachineNumber_returnsMachNumberIn() {
+
+            String machnumberIn = "A2231E0305";
+            MachineNumberReader reader = Mockito.mock(MachineNumberReader.class);
+            Mockito.when(reader.readMachineNumber()).thenReturn(machnumberIn);
+
+            StringVerifier verifier = new StringVerifier(reader);
+            String machNumerResult = verifier.getMachineNumber();
+
+            Assert.assertEquals(machNumerResult,machnumberIn);
+        }
+
+        /**
+         * Testet ob die ReadWriteException geworfen wird
+         * wenn der String einen Character zu wenig hat.
+         */
+        @Test
+        public void mockitoFake_machNumberOneDigitToShort_throwsReadWriteException() {
+            String machnumberIn = "A2231E030";
+            verifyMachNumber(machnumberIn);
+        }
+
+        /**
+         * Testet ob die ReadWriteException geworfen wird
+         * wenn der String einen Character zu viel hat.
+         */
+        @Test
+        public void mockitoFake_machNumberOneDigitToLong_throwsReadWriteException() {
+            String machnumberIn = "A2231E03055";
+            verifyMachNumber(machnumberIn);
+        }
+
+        /**
+         * Testet ob die ReadWriteException geworfen wird
+         * wenn der String an Index 0 keinen Buchstaben hat.
+         */
+        @Test
+        public void mockitoFake_machNumberNoLetterAtFirstPos_throwsReadWriteException() {
+            String machnumberIn = "12231E0305";
+            verifyMachNumber(machnumberIn);
+        }
+
+        /**
+         * Testet ob die ReadWriteException geworfen wird
+         * wenn der String an Index 5 keinen Buchstaben hat.
+         */
+        @Test
+        public void mockitoFake_machNumberNoLetterAtPos5_throwsReadWriteException() {
+            String machnumberIn = "A223110305";
+            verifyMachNumber(machnumberIn);
+        }
+
+        /**
+         * Testet ob die ReadWriteException geworfen wird
+         * wenn der String von Index 1 bis 4 nicht nur aus Zahlen besteht.
+         */
+        @Test
+        public void mockitoFake_machNumberNotOnlyNumbersFromPos1To4_throwsReadWriteException() {
+            String machnumberIn = "A2B31E0305";
+            verifyMachNumber(machnumberIn);
+        }
+
+        /**
+         * Testet ob die ReadWriteException geworfen wird
+         * wenn der String von Index 6 bis zum Ende nicht nur aus Zahlen besteht.
+         */
+        @Test
+        public void mockitoFake_machNumberNotOnlyNumbersFromPos6ToEnd_throwsReadWriteException() {
+            String machnumberIn = "A2231E03B5";
+            verifyMachNumber(machnumberIn);
+        }
+
+        /**
+         * Testet ob die ReadWriteException geworfen wird
+         * wenn der String empty ist.
+         */
+        @Test
+        public void mockitoFake_machNumberEmpty_throwsReadWriteException() {
+            String machnumberIn = "";
+            verifyMachNumber(machnumberIn);
+        }
+
+        /**
+         * Testet ob die ReadWriteException geworfen wird
+         * wenn der String null ist.
+         */
+        @Test
+        public void mockitoFake_machNumberNull_throwsReadWriteException() {
+            String machnumberIn = null;
+            verifyMachNumber(machnumberIn);
+        }
+
+    }
+
+    /**
+     * Prüft ob der im jeweiligen Test übergebene fehlerhafte String
+     * machnumberIn eine ReadWriteException wirft.
+     *
+     * @param machnumberIn
+     */
+    private static void verifyMachNumber(String machnumberIn) {
+        try {
+
+            MachineNumberReader reader = Mockito.mock(MachineNumberReader.class);
+            Mockito.when(reader.readMachineNumber()).thenReturn(machnumberIn);
+
+            StringVerifier verifier = new StringVerifier(reader);
+            verifier.getMachineNumber();
+
+            Assert.fail("No ReadWriteException was thrown");
+        } catch (ReadWriteException ex) {
+            Assert.assertEquals(machnumberIn + " ist keine gültige Maschinennnummer", ex.getMessage());
+        }
+    }
+
+}
