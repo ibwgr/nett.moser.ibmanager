@@ -1,5 +1,7 @@
 package model;
 
+import controller.StringVerifier;
+
 import java.io.*;
 
 /**
@@ -11,12 +13,6 @@ import java.io.*;
  */
 public class MachineNumberReader {
 
-    private String path;
-
-    public MachineNumberReader(String path) {
-        this.path = path;
-    }
-
     /**
      * Gibt die Machinennummer zurück die aus dem File datei ausgelsen wird zurück.
      * Wirft bei FileNotFoundException oder IOException eine ReadWriteException
@@ -26,6 +22,8 @@ public class MachineNumberReader {
      * @throws ReadWriteException
      */
     public String readMachineNumber()throws ReadWriteException{
+        StringVerifier verfier = new StringVerifier();
+        String path = verfier.getVerfiedPathFromPathConfig("Maschinennummer");
         File datei = new File(path);
         FileReader reader = null;
         BufferedReader bufReader = null;
