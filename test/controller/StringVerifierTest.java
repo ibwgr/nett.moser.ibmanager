@@ -2,16 +2,20 @@ package controller;
 
 import model.MachineNumberReader;
 import model.ReadWriteException;
+import model.XmlHandler;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
-import static org.junit.Assert.*;
+import static org.powermock.api.mockito.PowerMockito.when;
 
 /**
- * Testet die Methode getMachineNumber()
+ * Testet die Methode getMachineNumber() und getVerifiedPathFromPathConfig()
  *
  * Created by Nett on 29.12.2016.
  * @author Nett
@@ -19,7 +23,7 @@ import static org.junit.Assert.*;
 @RunWith(Enclosed.class)
 public class StringVerifierTest {
 
-    public static class getMachineNumber {
+    public static class getVerifiedMachineNumber {
 
         /**
          * Testet ob eine gültige Maschinennummer wie gewünscht wieder
@@ -33,7 +37,7 @@ public class StringVerifierTest {
             Mockito.when(reader.readMachineNumber()).thenReturn(machnumberIn);
 
             StringVerifier verifier = new StringVerifier(reader);
-            String machNumerResult = verifier.getMachineNumber();
+            String machNumerResult = verifier.getVerifiedMachineNumber();
 
             Assert.assertEquals(machNumerResult,machnumberIn);
         }
@@ -133,12 +137,77 @@ public class StringVerifierTest {
             Mockito.when(reader.readMachineNumber()).thenReturn(machnumberIn);
 
             StringVerifier verifier = new StringVerifier(reader);
-            verifier.getMachineNumber();
+            verifier.getVerifiedMachineNumber();
 
             Assert.fail("No ReadWriteException was thrown");
         } catch (ReadWriteException ex) {
             Assert.assertEquals(machnumberIn + " ist keine gültige Maschinennnummer", ex.getMessage());
         }
+    }
+
+    @RunWith(PowerMockRunner.class)
+    @PrepareForTest({XmlHandler.class})
+    public static class getVerifiedPathFromPathConfig {
+
+        /**
+         * Testet ob ein gültiger Pfad auch wieder zurückgegeben wird
+         * Ein Pfad ist gültig wenn er nicht Null oder Empty ist
+         */
+        @Test
+        public void mockitoFake_withValidPathInMaschinennummer_returnsPathIn() {
+
+            String pathIn = "C:\\tcommc\\exe\\machinnr.ini";
+            PowerMockito.mockStatic(XmlHandler.class);
+            when(XmlHandler.readPathFromPathConfig(Mockito.anyString())).thenReturn(pathIn);
+
+            StringVerifier verifier = new StringVerifier();
+            String pathOut = verifier.getVerfiedPathFromPathConfig(Mockito.anyString());
+
+            Assert.assertEquals(pathIn,pathOut);
+        }
+
+        /**
+         * Testet ob eine ReadWriteException geworfen wird
+         * wenn der Pfad empty ist.
+         */
+        @Test
+        public void mockitoFake_withEmptySearchKeyword_throwsReadWriteException() {
+
+            try {
+                String searchKeyword = "";
+                PowerMockito.mockStatic(XmlHandler.class);
+                when(XmlHandler.readPathFromPathConfig(Mockito.anyString())).thenReturn(searchKeyword);
+
+                StringVerifier verifier = new StringVerifier();
+                verifier.getVerfiedPathFromPathConfig(Mockito.anyString());
+
+                Assert.fail("No ReadWriteException was thrown");
+            }catch(ReadWriteException ex){
+                Assert.assertEquals("Der im PathConfig.xml mit CharactName  definierte Pfad ist nicht gültig: ",ex.getMessage());
+            }
+        }
+
+        /**
+         * Testet ob eine ReadWriteException geworfen wird
+         * wenn der Pfad null ist.
+         */
+        @Test
+        public void mockitoFake_withNullSearchKeyword_throwsReadWriteException() {
+
+            try {
+                String searchKeyword = null;
+                PowerMockito.mockStatic(XmlHandler.class);
+                when(XmlHandler.readPathFromPathConfig(Mockito.anyString())).thenReturn(searchKeyword);
+
+                StringVerifier verifier = new StringVerifier();
+                verifier.getVerfiedPathFromPathConfig(Mockito.anyString());
+
+                Assert.fail("No ReadWriteException was thrown");
+            }catch(ReadWriteException ex){
+                Assert.assertEquals("Der im PathConfig.xml mit CharactName  definierte Pfad ist nicht gültig: null",ex.getMessage());
+            }
+        }
+
     }
 
 }

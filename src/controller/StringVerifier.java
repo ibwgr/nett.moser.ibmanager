@@ -2,6 +2,7 @@ package controller;
 
 import model.MachineNumberReader;
 import model.ReadWriteException;
+import model.XmlHandler;
 
 /**
  * Verifiziert einen String ob er den Anforderungen gemäss Beschreibung entspricht
@@ -14,7 +15,8 @@ public class StringVerifier {
     private MachineNumberReader reader = null;
 
     public StringVerifier() {
-        reader = new MachineNumberReader("C:\\tcommc\\exe\\machinnr.in");
+        reader = new MachineNumberReader();
+
     }
 
     // Konstruktor um zum Testen einen Fake-Reader zu injizieren
@@ -29,13 +31,31 @@ public class StringVerifier {
      * @return machNumber
      * @throws ReadWriteException
      */
-    public String getMachineNumber()throws ReadWriteException {
+    public String getVerifiedMachineNumber()throws ReadWriteException {
         String machNumber = reader.readMachineNumber();
         if(!isMachineNumberValid(machNumber)){
             ReadWriteException rwEx = new ReadWriteException(machNumber + " ist keine gültige Maschinennnummer");
             throw rwEx;
         }
         return machNumber;
+    }
+
+    /**
+     * Prüft den von der Methode XmlHandler.readPathFromPathConfig(searchPath)
+     * zurückgegebene String auf null oder Empty und löst im Fehlerfall eine
+     * ReadWriteException zurück
+     *
+     * @param searchPath
+     * @return
+     * @throws ReadWriteException
+     */
+    public String getVerfiedPathFromPathConfig(String searchPath)throws ReadWriteException{
+        String path = XmlHandler.readPathFromPathConfig(searchPath);
+        if(isStringNullOrEmpty(path)){
+            ReadWriteException rwEx = new ReadWriteException("Der im PathConfig.xml mit CharactName " + searchPath + " definierte Pfad ist nicht gültig: " + path);
+            throw rwEx;
+        }
+        return path;
     }
 
     /**
@@ -71,14 +91,14 @@ public class StringVerifier {
     /**
      * Prüft ob der String Null oder Empty ist.
      *
-     * @param machNumber
+     * @param stringIn
      * @return true wenn null oder Empty
      */
-    private boolean isStringNullOrEmpty(String machNumber){
-        if(machNumber == null){
+    private boolean isStringNullOrEmpty(String stringIn){
+        if(stringIn == null){
             return true;
         }
-        if(machNumber.isEmpty()){
+        if(stringIn.isEmpty()){
             return true;
         }
         return false;
@@ -101,4 +121,5 @@ public class StringVerifier {
         }
         return true;
     }
+
 }
