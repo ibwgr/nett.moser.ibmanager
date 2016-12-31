@@ -169,7 +169,7 @@ public class XmlHandler {
      * @return
      * @throws ReadWriteException
      */
-    public static String getApplicatonPath()throws  ReadWriteException{
+    private static String getApplicatonPath()throws  ReadWriteException{
         CodeSource codeSource = XmlHandler.class.getProtectionDomain().getCodeSource();
         File rootPath = null;
         try {
