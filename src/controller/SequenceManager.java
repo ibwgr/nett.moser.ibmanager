@@ -1,5 +1,7 @@
 package controller;
 
+import model.ProtocolWriteException;
+import model.ProtocolWriter;
 import model.ReadWriteException;
 import model.XmlHandler;
 import org.w3c.dom.Element;
@@ -19,23 +21,42 @@ import java.util.Observable;
  * Created by Nett on 29.12.2016.
  * @author Nett
  */
-public class SequenceManager extends Observable {
+public class SequenceManager extends Observable implements Runnable{
 
     private String stepConfigApplName = null;
+    private List<String> applNameList = null;
 
+    public SequenceManager() {
+        applNameList = new ArrayList<>();
+    }
 
     /**
-     * Ist die Einstiegsmethode in die Applikation und wird durch die GUI/Konsole aufgerufen
-     * Sie beschreibt den sequenziellen Ablauf der Anwendung
+     * Ist die Einstiegsmethode in die Applikation und wird durch die GUI/Konsole durch Thread.start()
+     * aufgerufen. Sie iteriert in iterateOverStepConditions() über alle Steps, informiert sofern kein
+     * Fehler auftritt die registrierten Observer über die erfolgreiche Ausführung und stösst die Erzeugung des Prokokolls an.
      *
      * Wirft eine ReadWriteException an die GUI/Konsole damit sie da behandelt werden kann
      *
      * @throws ReadWriteException
      */
-    public void start() throws ReadWriteException{
-
-        iterateOverStepConditions();
-
+    public void startIbManager(){
+        String sucess = "IB-Manager erfolgfreich beendet!";
+        try {
+            iterateOverStepConditions();
+            informObserver(createApplStatus(sucess,0,AppInfo.TERMINATED));
+            //Protokoll als erfolgreich beendet markieren
+            addMessageToProtocol(sucess);
+        }catch (ReadWriteException ex){
+            //Error an die Observer weitergeben
+            informObserver(createApplStatus(ex.getMessage(),0,AppInfo.ERROR));
+        }finally {
+            try {
+                //Protokoll erzeugen
+                generateProtocol();
+            }catch (ProtocolWriteException e){
+                informObserver(createApplStatus(e.getMessage(),0,AppInfo.ERROR));
+            }
+        }
     }
 
     /**
@@ -58,16 +79,16 @@ public class SequenceManager extends Observable {
                 Element orderElement = XmlHandler.getElementFromOrder(stepConfigCharactName);
                 //Den Bedingungstyp StepConfigurations.xml lesen BA = Betriebsauftrag EX = ExistFile
                 String stepConfigCondType = stepConfigElement.getElementsByTagName("CondType").item(0).getTextContent();
-                if(stepConfigCondType.equals("BA")) {
-                    if(checkBaStepCondition(stepConfigElement, orderElement)){
+                if (stepConfigCondType.equals("BA")) {
+                    if (checkBaStepCondition(stepConfigElement, orderElement)) {
                         //Erstellt die Info betreffend Pfad und Befehlszeilenargumente
                         List<String> sArrayList = createAppPathInfo(stepConfigElement);
                         //Aufruf der externen Applikation
                         runExternalApplication(sArrayList, i);
-
                     }
-                }else if(stepConfigCondType.equals("EX")){
-
+                }
+                else if (stepConfigCondType.equals("EX")) {
+                    addMessageToProtocol(stepConfigApplName);
                 }
             }
         }
@@ -93,8 +114,8 @@ public class SequenceManager extends Observable {
                 sArrayList.add(arg);
             }
         }
+        //Name und Pfad der Applikation lesen und der Liste hinzufügen
         stepConfigApplName = stepConfigElement.getElementsByTagName("ApplName").item(0).getTextContent();
-
         sArrayList.add(stepConfigElement.getElementsByTagName("ApplPath").item(0).getTextContent() + stepConfigApplName);
         //Optionale Post-Befehlszeilenargumente lesen
         String stepConfigPostArgs = stepConfigElement.getElementsByTagName("PostArgs").item(0).getTextContent();
@@ -139,21 +160,24 @@ public class SequenceManager extends Observable {
      */
     private void runExternalApplication(List<String> sArrayList, int number)throws ReadWriteException{
 
-        //Applikationsname und Befehlszeilenargumente hinzufügen
-        List<String> cmdArgs = new ArrayList<String>();
-        for(String arg : sArrayList){
-                if(!arg.isEmpty()){
-                    cmdArgs.add(arg);
-                }
-        }
+        List<String> cmdArgs = sArrayList;
 
         ProcessBuilder pb = new ProcessBuilder (cmdArgs);
         Process p = null;
         try {
             p = pb.start();
             informObserver(createApplStatus(stepConfigApplName, number, AppInfo.RUNNING));
-            p.waitFor();
-            informObserver(createApplStatus(stepConfigApplName, number, AppInfo.FINISH));
+            int ok = p.waitFor();
+            if(ok == 0) {
+                informObserver(createApplStatus(stepConfigApplName, number, AppInfo.FINISH));
+                //Name der Applikation wird als FINISH in die Liste zur Protokoll-Erzeugung eingetragen
+                addMessageToProtocol(stepConfigApplName + "   " + AppInfo.FINISH);
+            }else{
+                //Name der Applikation wird als ERROR in die Liste zur Protokoll-Erzeugung eingetragen
+                addMessageToProtocol(stepConfigApplName + "   " + AppInfo.ERROR);
+                ReadWriteException rwEx = new ReadWriteException("Fehler beim Ausführen von " + stepConfigApplName);
+                throw rwEx;
+            }
         } catch (IOException e) {
             ReadWriteException rwEx = new ReadWriteException("Fehler beim Ausführen von " + e.getMessage());
             throw rwEx;
@@ -184,5 +208,25 @@ public class SequenceManager extends Observable {
     private ApplicationStatus createApplStatus(String name, int number, AppInfo actState){
 
         return new ApplicationStatus(name, number, actState);
+    }
+
+
+    private void generateProtocol() throws ProtocolWriteException {
+        new ProtocolWriter().createPdf(applNameList);
+    }
+
+    /**
+     * Fügt dem Protokoll eine Meldung hinzu
+     *
+     * @param message
+     */
+    public void addMessageToProtocol(String message){
+        applNameList.add(message);
+    }
+
+
+    @Override
+    public void run() {
+        startIbManager();
     }
 }
