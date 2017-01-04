@@ -1,4 +1,4 @@
-
+package view;
 
 import controller.AppInfo;
 import controller.ApplicationStatus;
@@ -50,7 +50,6 @@ public class Start_Maske extends JPanel implements Observer{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(750,440);
         frame.setMinimumSize(new Dimension(700, 400));
-
         frame.setLocationRelativeTo(null);
         frame.setContentPane(new Start_Maske());
         frame.setVisible(true);
@@ -60,18 +59,28 @@ public class Start_Maske extends JPanel implements Observer{
 
     //Komponenten hinzufügen
     private void example() {
+        //JLabel für Maschinenummer erzeugt
         addGB(new JLabel("Maschinenummer"), gridx = 0, gridy = 0);
         addGB(fieldMaschNr =new JLabel(), gridx = 1, gridy = 0);
         fieldMaschNr.setPreferredSize(new Dimension(150,30));
+
+        //Maschinenummer wird uebergeben
         initMaschinenummer();
 
+        //Checkbox zur ueberpruefung der Maschinenummer
         addGB(item = new JCheckBoxMenuItem("Maschinenummer I.O."), gridx = 2, gridy = 0);
+
+        //Kurzzeichen beschriftung und Textfeld zum eintragen
         addGB(new JLabel("Ihr_Kurz_Zeichen"), gridx = 0, gridy = 3);
         addGB(kurzZeichen = new JTextField(), gridx = 1, gridy = 3);
         kurzZeichen.setPreferredSize(new Dimension(150,30));
+
+        //Anzeigebereich welche Applikation im Moment läuft
         addGB(new JLabel("Aktueller_Konfigurations_Schritt"), gridx = 0, gridy = 4);
         addGB(konfigSchritt = new JTextField(), gridx = 1, gridy = 4);
         konfigSchritt.setPreferredSize(new Dimension(150,30));
+
+        //Anzeigebereich welchen Status die Applikation hat
         addGB(konfigSchrittVisualisieren = new JTextField(), gridx = 3, gridy = 4);
         konfigSchrittVisualisieren.setPreferredSize(new Dimension(150,30));
 
@@ -81,6 +90,7 @@ public class Start_Maske extends JPanel implements Observer{
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (item.getState()){
+                    manager.addMessageToProtocol("Kurzzeichen: " + kurzZeichen.getText());
                     new Thread(manager).start();
                 }
                 else{
@@ -99,7 +109,6 @@ public class Start_Maske extends JPanel implements Observer{
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
     }
-
 
     //Methoden zum Hinzufügen von Komponenten mit den benötigten GridBagConstraints
     private void addGB(Component component, int gridx, int gridy) {
@@ -162,11 +171,13 @@ public class Start_Maske extends JPanel implements Observer{
         } else if(status.getActState() == AppInfo.TERMINATED){
 
             //fieldMaschNr.setText("");
-            konfigSchrittVisualisieren.setText(status.getApplName());
+            konfigSchritt.setText(status.getApplName());
+            konfigSchrittVisualisieren.setText(status.getActState().toString());
             //appStatus.setText("");
         }else {
             //appNumber.setText("" + status.getNumber());
-            konfigSchrittVisualisieren.setText(status.getApplName());
+            konfigSchritt.setText(status.getApplName());
+            konfigSchrittVisualisieren.setText(status.getActState().toString());
             //appStatus.setText(status.getActState().toString());
         }
 
