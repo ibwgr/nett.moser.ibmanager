@@ -1,3 +1,5 @@
+
+
 import controller.AppInfo;
 import controller.ApplicationStatus;
 import controller.SequenceManager;
@@ -25,7 +27,8 @@ public class Start_Maske extends JPanel implements Observer{
     private int gridx, gridy, gridwidth, gridheight, fill, anchor, ipadx, ipady;
     private double weightx, weighty;
     private Insets insets;
-    private JTextField fieldMaschNr, fieldBetriebsauftrag,fieldKonfigGefunden, konfigSchritt, konfigSchrittVisualisieren;
+    private JTextField kurzZeichen, konfigSchritt, konfigSchrittVisualisieren;
+    private JLabel fieldMaschNr;
     private JButton start_konfiguration;
     private JCheckBoxMenuItem item;
     private JOptionPane pane;
@@ -58,22 +61,19 @@ public class Start_Maske extends JPanel implements Observer{
     //Komponenten hinzufügen
     private void example() {
         addGB(new JLabel("Maschinenummer"), gridx = 0, gridy = 0);
-        addGB(fieldMaschNr =new JTextField(), gridx = 1, gridy = 0);
-        fieldMaschNr.setPreferredSize(new Dimension(200,30));
+        addGB(fieldMaschNr =new JLabel(), gridx = 1, gridy = 0);
+        fieldMaschNr.setPreferredSize(new Dimension(150,30));
         initMaschinenummer();
 
         addGB(item = new JCheckBoxMenuItem("Maschinenummer I.O."), gridx = 2, gridy = 0);
-        addGB(new JLabel("Betriebsauftrag gefunden"), gridx = 0, gridy = 1);
-        addGB(fieldBetriebsauftrag = new JTextField(), gridx = 1, gridy = 1);
-        fieldBetriebsauftrag.setPreferredSize(new Dimension(30,30));
-        addGB(new JLabel("Konfigurations_File_gefunden"), gridx = 0, gridy = 3);
-        addGB(fieldKonfigGefunden = new JTextField(), gridx = 1, gridy = 3);
-        fieldKonfigGefunden.setPreferredSize(new Dimension(30,30));
+        addGB(new JLabel("Ihr_Kurz_Zeichen"), gridx = 0, gridy = 3);
+        addGB(kurzZeichen = new JTextField(), gridx = 1, gridy = 3);
+        kurzZeichen.setPreferredSize(new Dimension(150,30));
         addGB(new JLabel("Aktueller_Konfigurations_Schritt"), gridx = 0, gridy = 4);
         addGB(konfigSchritt = new JTextField(), gridx = 1, gridy = 4);
-        konfigSchritt.setPreferredSize(new Dimension(200,30));
+        konfigSchritt.setPreferredSize(new Dimension(150,30));
         addGB(konfigSchrittVisualisieren = new JTextField(), gridx = 3, gridy = 4);
-        konfigSchrittVisualisieren.setPreferredSize(new Dimension(30,30));
+        konfigSchrittVisualisieren.setPreferredSize(new Dimension(150,30));
 
         //Start Button mit AktionListener verbunden
         addGB(start_konfiguration = new JButton("Start_Konfiguration"), gridx = 1, gridy = 5, weightx = 0, weighty = 3);
