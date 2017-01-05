@@ -73,16 +73,16 @@ public class Start_Maske extends JPanel implements Observer {
         //Kurzzeichen beschriftung und Textfeld zum eintragen
         addGB(new JLabel("Ihr_Kurz_Zeichen"), gridx = 0, gridy = 3);
         addGB(kurzZeichen = new JTextField(), gridx = 1, gridy = 3);
-        kurzZeichen.setPreferredSize(new Dimension(150, 30));
+        kurzZeichen.setPreferredSize(new Dimension(100, 30));
 
         //Anzeigebereich welche Applikation im Moment läuft
         addGB(new JLabel("Aktueller_Konfigurations_Schritt"), gridx = 0, gridy = 4);
         addGB(konfigSchritt = new JTextField(), gridx = 1, gridy = 4);
-        konfigSchritt.setPreferredSize(new Dimension(150, 30));
+        konfigSchritt.setPreferredSize(new Dimension(190, 30));
 
         //Anzeigebereich welchen Status die Applikation hat
         addGB(applStatus = new JTextField(), gridx = 3, gridy = 4);
-        applStatus.setPreferredSize(new Dimension(150, 30));
+        applStatus.setPreferredSize(new Dimension(85, 30));
 
         //Start Button mit AktionListener verbunden
         addGB(start_konfiguration = new JButton("Start_Konfiguration"), gridx = 1, gridy = 5, weightx = 0, weighty = 3);
@@ -183,6 +183,11 @@ public class Start_Maske extends JPanel implements Observer {
         fensterErstellen();
     }
 
+    /**
+     * Update Methode von Observable ueberschrieben um vom SequenzManager den aktuellen Status der externen Applikationen zu erhalten
+     * @param o
+     * @param arg
+     */
     @Override
     public void update(Observable o, Object arg) {
         ApplicationStatus status = (ApplicationStatus) arg;
@@ -193,16 +198,13 @@ public class Start_Maske extends JPanel implements Observer {
                 System.exit(0);
             }
         } else if (status.getActState() == AppInfo.TERMINATED) {
+            konfigSchritt.setText(status.getApplName());
+            applStatus.setText(status.getActState().toString());
 
-            //fieldMaschNr.setText("");
-            konfigSchritt.setText(status.getApplName());
-            applStatus.setText(status.getActState().toString());
-            //appStatus.setText("");
         } else {
-            //appNumber.setText("" + status.getNumber());
             konfigSchritt.setText(status.getApplName());
             applStatus.setText(status.getActState().toString());
-            //appStatus.setText(status.getActState().toString());
+
         }
 
     }
