@@ -19,9 +19,10 @@ import static java.awt.GridBagConstraints.WEST;
  * Diese Klasse enthält die Start_Maske User Interface. Das Design entstand mit einem Gridbaglayout. Um zu starten muss die
  * Methode fenster_erstellen() ausgeführt werden.
  * Created by Moser on 31.12.2016.
+ *
  * @author Moser
  */
-public class Start_Maske extends JPanel implements Observer{
+public class Start_Maske extends JPanel implements Observer {
 
     // Alle constraint Felder
     private int gridx, gridy, gridwidth, gridheight, fill, anchor, ipadx, ipady;
@@ -31,7 +32,6 @@ public class Start_Maske extends JPanel implements Observer{
     private JLabel fieldMaschNr;
     private JButton start_konfiguration;
     private JCheckBoxMenuItem item;
-    //private JOptionPane pane;
     private SequenceManager manager = null;
     private StringVerifier verivier = null;
 
@@ -45,10 +45,10 @@ public class Start_Maske extends JPanel implements Observer{
     }
 
     //Statische Methode um ein Fenster zu erzeugen. Konstruktor von Start_Maske wir hier aufgerufen
-    private static JFrame fensterErstellen(){
+    private static JFrame fensterErstellen() {
         JFrame frame = new JFrame("IB_Manager");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(750,440);
+        frame.setSize(750, 440);
         frame.setMinimumSize(new Dimension(700, 400));
         frame.setLocationRelativeTo(null);
         frame.setContentPane(new Start_Maske());
@@ -61,8 +61,8 @@ public class Start_Maske extends JPanel implements Observer{
     private void example() {
         //JLabel für Maschinenummer erzeugt
         addGB(new JLabel("Maschinenummer"), gridx = 0, gridy = 0);
-        addGB(fieldMaschNr =new JLabel(), gridx = 1, gridy = 0);
-        fieldMaschNr.setPreferredSize(new Dimension(150,30));
+        addGB(fieldMaschNr = new JLabel(), gridx = 1, gridy = 0);
+        fieldMaschNr.setPreferredSize(new Dimension(150, 30));
 
         //Maschinenummer wird uebergeben
         initMaschinenummer();
@@ -73,16 +73,16 @@ public class Start_Maske extends JPanel implements Observer{
         //Kurzzeichen beschriftung und Textfeld zum eintragen
         addGB(new JLabel("Ihr_Kurz_Zeichen"), gridx = 0, gridy = 3);
         addGB(kurzZeichen = new JTextField(), gridx = 1, gridy = 3);
-        kurzZeichen.setPreferredSize(new Dimension(150,30));
+        kurzZeichen.setPreferredSize(new Dimension(100, 30));
 
         //Anzeigebereich welche Applikation im Moment läuft
         addGB(new JLabel("Aktueller_Konfigurations_Schritt"), gridx = 0, gridy = 4);
         addGB(konfigSchritt = new JTextField(), gridx = 1, gridy = 4);
-        konfigSchritt.setPreferredSize(new Dimension(150,30));
+        konfigSchritt.setPreferredSize(new Dimension(190, 30));
 
         //Anzeigebereich welchen Status die Applikation hat
         addGB(applStatus = new JTextField(), gridx = 3, gridy = 4);
-        applStatus.setPreferredSize(new Dimension(150,30));
+        applStatus.setPreferredSize(new Dimension(85, 30));
 
         //Start Button mit AktionListener verbunden
         addGB(start_konfiguration = new JButton("Start_Konfiguration"), gridx = 1, gridy = 5, weightx = 0, weighty = 3);
@@ -90,13 +90,13 @@ public class Start_Maske extends JPanel implements Observer{
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if (item.getState()){
+                if (item.getState() && kurzZeichenPrüfen()) {
                     manager.addMessageToProtocol("Kurzzeichen: " + kurzZeichen.getText());
                     new Thread(manager).start();
-                }
-                else{
-                    JOptionPane.showMessageDialog(null,"Bitte Maschinenummer prüfen");
-
+                } else if ((item.getState()) == false) {
+                    JOptionPane.showMessageDialog(null, "Bitte Maschinenummer prüfen");
+                } else if (kurzZeichenPrüfen() == false) {
+                    JOptionPane.showMessageDialog(null, "Bitte Kurzzeichen prüfen");
                 }
             }
         });
@@ -105,36 +105,57 @@ public class Start_Maske extends JPanel implements Observer{
     /**
      * Methode zum eintragen der Maschinenummer
      */
-    private void initMaschinenummer(){
+    private void initMaschinenummer() {
         try {
             fieldMaschNr.setText(verivier.getVerifiedMachineNumber());
-        }catch (ReadWriteException ex){
+        } catch (ReadWriteException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
+    }
+
+    /**
+     * Methode zur Pruefung ob das TextFeld kurzZeichen beschrieben ist.
+     * Eine Prüfung der richtigkeit wird in einem nächsten Schritt implementiert.
+     * @return
+     */
+    private boolean kurzZeichenPrüfen() {
+        String str = null;
+        str = kurzZeichen.getText();
+        if (str.equals("")) {
+            return false;
+        }
+        return true;
     }
 
     //Methoden zum Hinzufügen von Komponenten mit den benötigten GridBagConstraints
     private void addGB(Component component, int gridx, int gridy) {
         addGB(component, gridx, gridy, 1, 1, WEST, 0.0, 0.0, WEST, new Insets(0, 0, 0, 0), 0, 0);
     }
+
     private void addGB(Component component, int gridx, int gridy, int gridwidth) {
         addGB(component, gridx, gridy, gridwidth, 1, WEST, 0.0, 0.0, WEST, new Insets(0, 0, 0, 0), 0, 0);
     }
+
     private void addGB(Component component, int gridx, int gridy, int gridwidth, int gridheight) {
         addGB(component, gridx, gridy, gridwidth, gridheight, WEST, 0.0, 0.0, WEST, new Insets(0, 0, 0, 0), 0, 0);
     }
+
     private void addGB(Component component, int gridx, int gridy, int gridwidth, int gridheight, int fill) {
         addGB(component, gridx, gridy, gridwidth, gridheight, fill, 0.0, 0.0, WEST, new Insets(0, 0, 0, 0), 0, 0);
     }
+
     private void addGB(Component component, int gridx, int gridy, double weightx, double weighty) {
         addGB(component, gridx, gridy, 1, 1, WEST, weightx, weighty, WEST, new Insets(0, 0, 0, 0), 0, 0);
     }
+
     private void addGB(Component component, int gridx, int gridy, double weightx, double weighty, int ipadx, int ipady) {
         addGB(component, gridx, gridy, 1, 1, WEST, weightx, weighty, WEST, new Insets(0, 0, 0, 0), ipadx, ipady);
     }
+
     private void addGB(Component component, int gridx, int gridy, double weightx, double weighty, int anchor) {
         addGB(component, gridx, gridy, 1, 1, WEST, weightx, weighty, anchor, new Insets(0, 0, 0, 0), 0, 0);
     }
+
     private void addGB(Component component, int gridx, int gridy, double weightx, double weighty, int anchor, Insets insets) {
         addGB(component, gridx, gridy, 1, 1, WEST, weightx, weighty, anchor, insets, 0, 0);
     }
@@ -156,32 +177,34 @@ public class Start_Maske extends JPanel implements Observer{
         constraints.ipady = ipady;
         add(component, constraints);
     }
+
     //Start Methode
     public static void main(String[] args) {
         fensterErstellen();
     }
 
+    /**
+     * Update Methode von Observable ueberschrieben um vom SequenzManager den aktuellen Status der externen Applikationen zu erhalten
+     * @param o
+     * @param arg
+     */
     @Override
     public void update(Observable o, Object arg) {
-        ApplicationStatus status = (ApplicationStatus)arg;
+        ApplicationStatus status = (ApplicationStatus) arg;
 
-        if(status.getActState() == AppInfo.ERROR){
-            int choice = JOptionPane.showOptionDialog(null,status.getApplName(),"Fehlermeldung",JOptionPane.OK_OPTION,JOptionPane.ERROR_MESSAGE,null,null,null);
-            if (choice == JOptionPane.YES_OPTION)
-            {
+        if (status.getActState() == AppInfo.ERROR) {
+            int choice = JOptionPane.showOptionDialog(null, status.getApplName(), "Fehlermeldung", JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE, null, null, null);
+            if (choice == JOptionPane.YES_OPTION) {
                 System.exit(0);
             }
-        } else if(status.getActState() == AppInfo.TERMINATED){
+        } else if (status.getActState() == AppInfo.TERMINATED) {
+            konfigSchritt.setText(status.getApplName());
+            applStatus.setText(status.getActState().toString());
 
-            //fieldMaschNr.setText("");
+        } else {
             konfigSchritt.setText(status.getApplName());
             applStatus.setText(status.getActState().toString());
-            //appStatus.setText("");
-        }else {
-            //appNumber.setText("" + status.getNumber());
-            konfigSchritt.setText(status.getApplName());
-            applStatus.setText(status.getActState().toString());
-            //appStatus.setText(status.getActState().toString());
+
         }
 
     }
