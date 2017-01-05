@@ -27,11 +27,11 @@ public class Start_Maske extends JPanel implements Observer{
     private int gridx, gridy, gridwidth, gridheight, fill, anchor, ipadx, ipady;
     private double weightx, weighty;
     private Insets insets;
-    private JTextField kurzZeichen, konfigSchritt, konfigSchrittVisualisieren;
+    private JTextField kurzZeichen, konfigSchritt, applStatus;
     private JLabel fieldMaschNr;
     private JButton start_konfiguration;
     private JCheckBoxMenuItem item;
-    private JOptionPane pane;
+    //private JOptionPane pane;
     private SequenceManager manager = null;
     private StringVerifier verivier = null;
 
@@ -81,27 +81,30 @@ public class Start_Maske extends JPanel implements Observer{
         konfigSchritt.setPreferredSize(new Dimension(150,30));
 
         //Anzeigebereich welchen Status die Applikation hat
-        addGB(konfigSchrittVisualisieren = new JTextField(), gridx = 3, gridy = 4);
-        konfigSchrittVisualisieren.setPreferredSize(new Dimension(150,30));
+        addGB(applStatus = new JTextField(), gridx = 3, gridy = 4);
+        applStatus.setPreferredSize(new Dimension(150,30));
 
         //Start Button mit AktionListener verbunden
         addGB(start_konfiguration = new JButton("Start_Konfiguration"), gridx = 1, gridy = 5, weightx = 0, weighty = 3);
         start_konfiguration.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 if (item.getState()){
                     manager.addMessageToProtocol("Kurzzeichen: " + kurzZeichen.getText());
                     new Thread(manager).start();
                 }
                 else{
-                   // pane = new JOptionPane();
                     JOptionPane.showMessageDialog(null,"Bitte Maschinenummer prüfen");
-                    //pane.setVisible(true);
+
                 }
             }
         });
     }
 
+    /**
+     * Methode zum eintragen der Maschinenummer
+     */
     private void initMaschinenummer(){
         try {
             fieldMaschNr.setText(verivier.getVerifiedMachineNumber());
@@ -153,7 +156,7 @@ public class Start_Maske extends JPanel implements Observer{
         constraints.ipady = ipady;
         add(component, constraints);
     }
-
+    //Start Methode
     public static void main(String[] args) {
         fensterErstellen();
     }
@@ -172,12 +175,12 @@ public class Start_Maske extends JPanel implements Observer{
 
             //fieldMaschNr.setText("");
             konfigSchritt.setText(status.getApplName());
-            konfigSchrittVisualisieren.setText(status.getActState().toString());
+            applStatus.setText(status.getActState().toString());
             //appStatus.setText("");
         }else {
             //appNumber.setText("" + status.getNumber());
             konfigSchritt.setText(status.getApplName());
-            konfigSchrittVisualisieren.setText(status.getActState().toString());
+            applStatus.setText(status.getActState().toString());
             //appStatus.setText(status.getActState().toString());
         }
 
