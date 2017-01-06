@@ -7,9 +7,11 @@ import controller.StringVerifier;
 import model.ReadWriteException;
 
 import javax.swing.*;
+import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -28,7 +30,7 @@ public class Start_Maske extends JPanel implements Observer {
     private int gridx, gridy, gridwidth, gridheight, fill, anchor, ipadx, ipady;
     private double weightx, weighty;
     private Insets insets;
-    private JTextField kurzZeichen, konfigSchritt, applStatus;
+    private JTextField kurzZeichen, konfigSchritt, applStatus, applNr;
     private JLabel fieldMaschNr;
     private JButton start_konfiguration;
     private JCheckBoxMenuItem item;
@@ -70,10 +72,25 @@ public class Start_Maske extends JPanel implements Observer {
         //Checkbox zur ueberpruefung der Maschinenummer
         addGB(item = new JCheckBoxMenuItem("Maschinenummer I.O."), gridx = 2, gridy = 0);
 
-        //Kurzzeichen beschriftung und Textfeld zum eintragen
+        //Kurzzeichen beschriftung und Textfeld zum eintragen des Kurzzeichens
+        // AktionListener hinzugefügt um start_konfiguration Button frei zu geben
         addGB(new JLabel("Ihr_Kurz_Zeichen"), gridx = 0, gridy = 3);
         addGB(kurzZeichen = new JTextField(), gridx = 1, gridy = 3);
         kurzZeichen.setPreferredSize(new Dimension(100, 30));
+        kurzZeichen.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    MaskFormatter mf = new MaskFormatter("UUUU###LL");
+                    String valueToString = mf.valueToString(kurzZeichen.getText());
+                    kurzZeichen.setText(mf.valueToString(valueToString));
+                } catch (ParseException e1) {
+                    JOptionPane.showMessageDialog(null,e1.getMessage());
+                    System.exit(0);
+                }
+                    start_konfiguration.setEnabled(true);
+            }
+        });
 
         //Anzeigebereich welche Applikation im Moment läuft
         addGB(new JLabel("Aktueller_Konfigurations_Schritt"), gridx = 0, gridy = 4);
@@ -81,11 +98,16 @@ public class Start_Maske extends JPanel implements Observer {
         konfigSchritt.setPreferredSize(new Dimension(190, 30));
 
         //Anzeigebereich welchen Status die Applikation hat
-        addGB(applStatus = new JTextField(), gridx = 3, gridy = 4);
+        addGB(applStatus = new JTextField(), gridx = 2, gridy = 4);
         applStatus.setPreferredSize(new Dimension(85, 30));
+
+        //Anzeigebereich welche ApplikationsNummer gerade laeuft
+        addGB(applNr = new JTextField(), gridx = 3, gridy = 4);
+        applNr.setPreferredSize(new Dimension(30, 30));
 
         //Start Button mit AktionListener verbunden
         addGB(start_konfiguration = new JButton("Start_Konfiguration"), gridx = 1, gridy = 5, weightx = 0, weighty = 3);
+        start_konfiguration.setEnabled(false);
         start_konfiguration.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -116,11 +138,11 @@ public class Start_Maske extends JPanel implements Observer {
     /**
      * Methode zur Pruefung ob das TextFeld kurzZeichen beschrieben ist.
      * Eine Prüfung der richtigkeit wird in einem nächsten Schritt implementiert.
+     *
      * @return
      */
     private boolean kurzZeichenPrüfen() {
-        String str = null;
-        str = kurzZeichen.getText();
+        String str = kurzZeichen.getText();
         if (str.equals("")) {
             return false;
         }
@@ -185,6 +207,7 @@ public class Start_Maske extends JPanel implements Observer {
 
     /**
      * Update Methode von Observable ueberschrieben um vom SequenzManager den aktuellen Status der externen Applikationen zu erhalten
+     *
      * @param o
      * @param arg
      */
@@ -200,10 +223,12 @@ public class Start_Maske extends JPanel implements Observer {
         } else if (status.getActState() == AppInfo.TERMINATED) {
             konfigSchritt.setText(status.getApplName());
             applStatus.setText(status.getActState().toString());
+            applNr.setText("");
 
         } else {
             konfigSchritt.setText(status.getApplName());
             applStatus.setText(status.getActState().toString());
+            applNr.setText("" + status.getNumber());
 
         }
 
