@@ -21,9 +21,8 @@ public class MachineNumberReader {
      * @return machNumber
      * @throws ReadWriteException
      */
-    public String readMachineNumber()throws ReadWriteException{
-        StringVerifier verfier = new StringVerifier();
-        String path = verfier.getVerfiedPathFromPathConfig("Maschinennummer");
+    public static String readMachineNumber()throws ReadWriteException{
+        String path = StringVerifier.getVerfiedPathFromPathConfig("Maschinennummer");
         File datei = new File(path);
         FileReader reader = null;
         BufferedReader bufReader = null;
@@ -43,15 +42,11 @@ public class MachineNumberReader {
                 if(reader != null) {
                     reader.close();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            } catch (IOException e) {}
             if(bufReader != null){
                 try {
                     bufReader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                } catch (IOException e) {}
             }
         }
         return machNumber;
