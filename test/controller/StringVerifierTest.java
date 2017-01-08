@@ -23,6 +23,8 @@ import static org.powermock.api.mockito.PowerMockito.when;
 @RunWith(Enclosed.class)
 public class StringVerifierTest {
 
+    @RunWith(PowerMockRunner.class)
+    @PrepareForTest({MachineNumberReader.class})
     public static class getVerifiedMachineNumber {
 
         /**
@@ -33,11 +35,11 @@ public class StringVerifierTest {
         public void mockitoFake_validMachineNumber_returnsMachNumberIn() {
 
             String machnumberIn = "A2231E0305";
-            MachineNumberReader reader = Mockito.mock(MachineNumberReader.class);
-            Mockito.when(reader.readMachineNumber()).thenReturn(machnumberIn);
 
-            StringVerifier verifier = new StringVerifier(reader);
-            String machNumerResult = verifier.getVerifiedMachineNumber();
+            PowerMockito.mockStatic(MachineNumberReader.class);
+            when(MachineNumberReader.readMachineNumber()).thenReturn(machnumberIn);
+
+            String machNumerResult = StringVerifier.getVerifiedMachineNumber();
 
             Assert.assertEquals(machNumerResult,machnumberIn);
         }
@@ -132,12 +134,10 @@ public class StringVerifierTest {
      */
     private static void verifyMachNumber(String machnumberIn) {
         try {
+            PowerMockito.mockStatic(MachineNumberReader.class);
+            when(MachineNumberReader.readMachineNumber()).thenReturn(machnumberIn);
 
-            MachineNumberReader reader = Mockito.mock(MachineNumberReader.class);
-            Mockito.when(reader.readMachineNumber()).thenReturn(machnumberIn);
-
-            StringVerifier verifier = new StringVerifier(reader);
-            verifier.getVerifiedMachineNumber();
+            StringVerifier.getVerifiedMachineNumber();
 
             Assert.fail("No ReadWriteException was thrown");
         } catch (ReadWriteException ex) {
@@ -160,8 +160,7 @@ public class StringVerifierTest {
             PowerMockito.mockStatic(XmlHandler.class);
             when(XmlHandler.readPathFromPathConfig(Mockito.anyString())).thenReturn(pathIn);
 
-            StringVerifier verifier = new StringVerifier();
-            String pathOut = verifier.getVerfiedPathFromPathConfig(Mockito.anyString());
+            String pathOut = StringVerifier.getVerfiedPathFromPathConfig(Mockito.anyString());
 
             Assert.assertEquals(pathIn,pathOut);
         }
@@ -178,8 +177,7 @@ public class StringVerifierTest {
                 PowerMockito.mockStatic(XmlHandler.class);
                 when(XmlHandler.readPathFromPathConfig(Mockito.anyString())).thenReturn(searchKeyword);
 
-                StringVerifier verifier = new StringVerifier();
-                verifier.getVerfiedPathFromPathConfig(Mockito.anyString());
+                StringVerifier.getVerfiedPathFromPathConfig(Mockito.anyString());
 
                 Assert.fail("No ReadWriteException was thrown");
             }catch(ReadWriteException ex){
@@ -199,8 +197,7 @@ public class StringVerifierTest {
                 PowerMockito.mockStatic(XmlHandler.class);
                 when(XmlHandler.readPathFromPathConfig(Mockito.anyString())).thenReturn(searchKeyword);
 
-                StringVerifier verifier = new StringVerifier();
-                verifier.getVerfiedPathFromPathConfig(Mockito.anyString());
+                StringVerifier.getVerfiedPathFromPathConfig(Mockito.anyString());
 
                 Assert.fail("No ReadWriteException was thrown");
             }catch(ReadWriteException ex){
