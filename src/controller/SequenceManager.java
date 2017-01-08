@@ -52,7 +52,7 @@ public class SequenceManager extends Observable implements Runnable{
         }finally {
             try {
                 //Protokoll erzeugen
-                generateProtocol();
+                ProtocolWriter.createPdf(applNameList);
             }catch (ProtocolWriteException e){
                 informObserver(createApplStatus(e.getMessage(),0,AppInfo.ERROR));
             }
@@ -208,11 +208,6 @@ public class SequenceManager extends Observable implements Runnable{
     private ApplicationStatus createApplStatus(String name, int number, AppInfo actState){
 
         return new ApplicationStatus(name, number, actState);
-    }
-
-
-    private void generateProtocol() throws ProtocolWriteException {
-        new ProtocolWriter().createPdf(applNameList);
     }
 
     /**
