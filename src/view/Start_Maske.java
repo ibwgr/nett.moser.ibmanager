@@ -15,6 +15,7 @@ import java.text.ParseException;
 import java.util.Observable;
 import java.util.Observer;
 
+import static java.awt.GridBagConstraints.EAST;
 import static java.awt.GridBagConstraints.WEST;
 
 /**
@@ -105,7 +106,6 @@ public class Start_Maske extends JPanel implements Observer {
                     JOptionPane.showMessageDialog(null,"Kurzzeichen prüfen: " );
                     kurzZeichen.selectAll();
                 }
-
             }
         });
 
@@ -115,15 +115,17 @@ public class Start_Maske extends JPanel implements Observer {
         konfigSchritt.setPreferredSize(new Dimension(190, 30));
 
         //Anzeigebereich welchen Status die Applikation hat
-        addGB(applStatus = new JTextField(), gridx = 2, gridy = 4);
+        addGB(new JLabel("Status"), gridx = 2, gridy = 4,gridwidth = 1,gridheight = 1);
+        addGB(applStatus = new JTextField(), gridx = 3, gridy = 4);
         applStatus.setPreferredSize(new Dimension(85, 30));
 
         //Anzeigebereich welche ApplikationsNummer gerade laeuft
-        addGB(applNr = new JTextField(), gridx = 3, gridy = 4);
+        addGB(new JLabel("Applikations Nummer"), gridx = 0, gridy = 5);
+        addGB(applNr = new JTextField(), gridx = 1, gridy = 5);
         applNr.setPreferredSize(new Dimension(30, 30));
 
         //Start Button mit AktionListener verbunden
-        addGB(start_konfiguration = new JButton("Start Konfiguration"), gridx = 1, gridy = 5, weightx = 0, weighty = 3);
+        addGB(start_konfiguration = new JButton("Start Konfiguration"), gridx = 1, gridy = 6, weightx = 0, weighty = 3);
         start_konfiguration.setEnabled(false);
         start_konfiguration.addActionListener(new ActionListener() {
             @Override
@@ -157,7 +159,7 @@ public class Start_Maske extends JPanel implements Observer {
 
     //Methoden zum Hinzufügen von Komponenten mit den benötigten GridBagConstraints
     private void addGB(Component component, int gridx, int gridy) {
-        addGB(component, gridx, gridy, 1, 1, WEST, 0.0, 0.0, WEST, new Insets(0, 0, 0, 0), 0, 0);
+        addGB(component, gridx, gridy, 1, 1, EAST, 0.0, 0.0, WEST, new Insets(0, 0, 0, 0), 0, 0);
     }
 
     private void addGB(Component component, int gridx, int gridy, int gridwidth) {
@@ -165,7 +167,7 @@ public class Start_Maske extends JPanel implements Observer {
     }
 
     private void addGB(Component component, int gridx, int gridy, int gridwidth, int gridheight) {
-        addGB(component, gridx, gridy, gridwidth, gridheight, WEST, 0.0, 0.0, WEST, new Insets(0, 0, 0, 0), 0, 0);
+        addGB(component, gridx, gridy, gridwidth, gridheight, WEST, 0.0, 0.0, EAST, new Insets(0, 0, 0, 0), 0, 0);
     }
 
     private void addGB(Component component, int gridx, int gridy, int gridwidth, int gridheight, int fill) {
@@ -240,7 +242,7 @@ public class Start_Maske extends JPanel implements Observer {
         } else {
             konfigSchritt.setText(status.getApplName());
             applStatus.setText(status.getActState().toString());
-            applNr.setText("" + status.getNumber());
+            applNr.setText("" + (status.getNumber()+1));
 
         }
     }
