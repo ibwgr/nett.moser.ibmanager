@@ -25,37 +25,20 @@ import java.util.List;
  */
 public class ProtocolWriter {
 
-    private StringVerifier verifier = null;
-    private String machineNumer = null;
-
-    public ProtocolWriter() {
-        verifier = new StringVerifier();
-    }
-
-    /**
-     * Erstellt den Speicherpfad des Protokolls
-     *
-     * @return
-     * @throws ReadWriteException
-     */
-    private String createProtocolPath()throws ReadWriteException{
-        machineNumer = verifier.getVerifiedMachineNumber();
-        return verifier.getVerfiedPathFromPathConfig("Protokoll") + machineNumer + ".pdf";
-    }
-
-
     /**
      * Erstellt das Prüfprotokoll aus dem Inhalt der Liste applNameList
      *
      * @param applNameList
      * @throws ProtocolWriteException
      */
-    public void createPdf(List<String> applNameList) throws ProtocolWriteException {
+    public static void createPdf(List<String> applNameList) throws ProtocolWriteException {
         Document document = new Document();
         String path = null;
 
         try {
-            path = createProtocolPath();
+            //Erstellt den Speicherpfad des Protokolls
+            String machineNumer = StringVerifier.getVerifiedMachineNumber();
+            path = StringVerifier.getVerfiedPathFromPathConfig("Protokoll") + machineNumer + ".pdf";
             PdfWriter writer = PdfWriter.getInstance(document,
                     new FileOutputStream(path));
             document.open();
@@ -90,7 +73,7 @@ public class ProtocolWriter {
         }
     }
 
-    private String getDateTime() {
+    private static String getDateTime() {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
         return dateFormat.format(date);

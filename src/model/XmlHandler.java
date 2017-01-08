@@ -23,11 +23,6 @@ import java.security.CodeSource;
  */
 public class XmlHandler {
 
-    private File xmlFile = null;
-    private DocumentBuilderFactory docBuilderFactory = null;
-    private DocumentBuilder docBuilder = null;
-    private Document doc = null;
-
     /**
      * Gibt den mit dem Suchbegriff searchPath definierten Pfad
      * aus der Datei PathConfig.xml zurück.
@@ -121,8 +116,7 @@ public class XmlHandler {
      */
     public static Element getElementFromOrder(String searchElement)throws ReadWriteException{
 
-        StringVerifier verifier = new StringVerifier();
-        String root = verifier.getVerfiedPathFromPathConfig("Betriebsauftrag") + "Configuration_" + verifier.getVerifiedMachineNumber() + ".xml";
+        String root = StringVerifier.getVerfiedPathFromPathConfig("Betriebsauftrag") + "Configuration_" + StringVerifier.getVerifiedMachineNumber() + ".xml";
         Element baElement = null;
 
         File xmlFile = new File(root);
@@ -138,6 +132,7 @@ public class XmlHandler {
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element eElement = (Element) nNode;
                     String charactName = eElement.getElementsByTagName("CharactName").item(0).getTextContent();
+                    //Suchbegriff mit dem Wert des aktuellen Elements vergleichen
                     if(charactName.equals(searchElement)){
                         baElement = eElement;
                         break;
