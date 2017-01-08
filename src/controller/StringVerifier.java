@@ -12,18 +12,6 @@ import model.XmlHandler;
  */
 public class StringVerifier {
 
-    private MachineNumberReader reader = null;
-
-    public StringVerifier() {
-        reader = new MachineNumberReader();
-
-    }
-
-    // Konstruktor um zum Testen einen Fake-Reader zu injizieren
-    public StringVerifier(MachineNumberReader reader) {
-        this.reader = reader;
-    }
-
     /**
      * Gibt die Maschinennummer zurück wenn sie gültig ist,
      * sonst wir eine ReadWriteException geworfen.
@@ -31,8 +19,8 @@ public class StringVerifier {
      * @return machNumber
      * @throws ReadWriteException
      */
-    public String getVerifiedMachineNumber()throws ReadWriteException {
-        String machNumber = reader.readMachineNumber();
+    public static String getVerifiedMachineNumber()throws ReadWriteException {
+        String machNumber = MachineNumberReader.readMachineNumber();
         if(!isMachineNumberValid(machNumber)){
             ReadWriteException rwEx = new ReadWriteException(machNumber + " ist keine gültige Maschinennnummer");
             throw rwEx;
@@ -49,7 +37,7 @@ public class StringVerifier {
      * @return
      * @throws ReadWriteException
      */
-    public String getVerfiedPathFromPathConfig(String searchPath)throws ReadWriteException{
+    public static String getVerfiedPathFromPathConfig(String searchPath)throws ReadWriteException{
         String path = XmlHandler.readPathFromPathConfig(searchPath);
         if(isStringNullOrEmpty(path)){
             ReadWriteException rwEx = new ReadWriteException("Der im PathConfig.xml mit CharactName " + searchPath + " definierte Pfad ist nicht gültig: " + path);
@@ -68,7 +56,7 @@ public class StringVerifier {
      * @param machNumber
      * @return true wenn valid
      */
-    private boolean isMachineNumberValid(String machNumber){
+    private static boolean isMachineNumberValid(String machNumber){
         if(isStringNullOrEmpty(machNumber)){
             return false;
         }
@@ -94,7 +82,7 @@ public class StringVerifier {
      * @param stringIn
      * @return true wenn null oder Empty
      */
-    private boolean isStringNullOrEmpty(String stringIn){
+    private static boolean isStringNullOrEmpty(String stringIn){
         if(stringIn == null){
             return true;
         }
@@ -112,7 +100,7 @@ public class StringVerifier {
      * @param end
      * @return true wenn der String vom Index start bis end nur aus Zahlen besteht
      */
-    private boolean hasSubstringNumbersOnly(String machNumber, int start, int end){
+    private static boolean hasSubstringNumbersOnly(String machNumber, int start, int end){
         String shortName = machNumber.substring(start, end);
         for (char c : shortName.toCharArray()){
             if(!Character.isDigit(c)){
