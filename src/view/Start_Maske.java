@@ -15,6 +15,7 @@ import java.text.ParseException;
 import java.util.Observable;
 import java.util.Observer;
 
+import static java.awt.GridBagConstraints.EAST;
 import static java.awt.GridBagConstraints.WEST;
 
 /**
@@ -61,7 +62,7 @@ public class Start_Maske extends JPanel implements Observer {
         return frame;
     }
 
-    //Komponenten hinzufügen
+    //Komponenten hinzufuegen
     private void example() {
         //JLabel für Maschinenummer erzeugt
         addGB(new JLabel("Maschinenummer"), gridx = 0, gridy = 0);
@@ -85,15 +86,15 @@ public class Start_Maske extends JPanel implements Observer {
             }
         });
 
-        //Kurzzeichen beschriftung und Textfeld zum eintragen des Kurzzeichens
-        // AktionListener hinzugefügt um start_konfiguration Button frei zu geben
+        //Kurzzeichen Beschriftung und Textfeld zum eintragen des Kurzzeichens
+        // AktionListener hinzugefuegt um start_konfiguration Button frei zu geben
         addGB(new JLabel("Ihr_Kurz_Zeichen"), gridx = 0, gridy = 3);
         addGB(kurzZeichen = new JTextField(), gridx = 1, gridy = 3);
         kurzZeichen.setPreferredSize(new Dimension(100, 30));
         kurzZeichen.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //Kurzzeichen auf richtiges Format prüfen
+                //Kurzzeichen auf richtiges Format pruefen
                 try {
                     MaskFormatter mf = new MaskFormatter("UUUU###LL");
                     String valueToString = mf.valueToString(kurzZeichen.getText());
@@ -102,28 +103,29 @@ public class Start_Maske extends JPanel implements Observer {
                     if(item.getState()){
                     start_konfiguration.setEnabled(true);}
                 } catch (ParseException e1) {
-                    JOptionPane.showMessageDialog(null,"Kurzzeichen prüfen: " );
+                    JOptionPane.showMessageDialog(null,"Kurzzeichen pruefen: " );
                     kurzZeichen.selectAll();
                 }
-
             }
         });
 
-        //Anzeigebereich welche Applikation im Moment läuft
+        //Anzeigebereich welche Applikation im Moment laeuft
         addGB(new JLabel("Aktueller Konfigurationsschritt "), gridx = 0, gridy = 4);
         addGB(konfigSchritt = new JTextField(), gridx = 1, gridy = 4);
         konfigSchritt.setPreferredSize(new Dimension(190, 30));
 
         //Anzeigebereich welchen Status die Applikation hat
-        addGB(applStatus = new JTextField(), gridx = 2, gridy = 4);
+        addGB(new JLabel("Status"), gridx = 2, gridy = 4,gridwidth = 1,gridheight = 1);
+        addGB(applStatus = new JTextField(), gridx = 3, gridy = 4);
         applStatus.setPreferredSize(new Dimension(85, 30));
 
         //Anzeigebereich welche ApplikationsNummer gerade laeuft
-        addGB(applNr = new JTextField(), gridx = 3, gridy = 4);
+        addGB(new JLabel("Applikations Nummer"), gridx = 0, gridy = 5);
+        addGB(applNr = new JTextField(), gridx = 1, gridy = 5);
         applNr.setPreferredSize(new Dimension(30, 30));
 
         //Start Button mit AktionListener verbunden
-        addGB(start_konfiguration = new JButton("Start Konfiguration"), gridx = 1, gridy = 5, weightx = 0, weighty = 3);
+        addGB(start_konfiguration = new JButton("Start Konfiguration"), gridx = 1, gridy = 6, weightx = 0, weighty = 3);
         start_konfiguration.setEnabled(false);
         start_konfiguration.addActionListener(new ActionListener() {
             @Override
@@ -133,9 +135,9 @@ public class Start_Maske extends JPanel implements Observer {
                     manager.addMessageToProtocol("Kurzzeichen: " + kurzZeichen.getText());
                     new Thread(manager).start();
                 } else if ((item.getState()) == false) {
-                    JOptionPane.showMessageDialog(null, "Bitte Maschinenummer prüfen");
+                    JOptionPane.showMessageDialog(null, "Bitte Maschinenummer pruefen");
                 } else if (kurzZeichenOK == false) {
-                    JOptionPane.showMessageDialog(null, "Bitte Kurzzeichen prüfen");
+                    JOptionPane.showMessageDialog(null, "Bitte Kurzzeichen pruefen");
                 }
 
             }
@@ -155,9 +157,9 @@ public class Start_Maske extends JPanel implements Observer {
 
 
 
-    //Methoden zum Hinzufügen von Komponenten mit den benötigten GridBagConstraints
+    //Methoden zum Hinzufuegen von Komponenten mit den benoetigten GridBagConstraints
     private void addGB(Component component, int gridx, int gridy) {
-        addGB(component, gridx, gridy, 1, 1, WEST, 0.0, 0.0, WEST, new Insets(0, 0, 0, 0), 0, 0);
+        addGB(component, gridx, gridy, 1, 1, EAST, 0.0, 0.0, WEST, new Insets(0, 0, 0, 0), 0, 0);
     }
 
     private void addGB(Component component, int gridx, int gridy, int gridwidth) {
@@ -165,7 +167,7 @@ public class Start_Maske extends JPanel implements Observer {
     }
 
     private void addGB(Component component, int gridx, int gridy, int gridwidth, int gridheight) {
-        addGB(component, gridx, gridy, gridwidth, gridheight, WEST, 0.0, 0.0, WEST, new Insets(0, 0, 0, 0), 0, 0);
+        addGB(component, gridx, gridy, gridwidth, gridheight, WEST, 0.0, 0.0, EAST, new Insets(0, 0, 0, 0), 0, 0);
     }
 
     private void addGB(Component component, int gridx, int gridy, int gridwidth, int gridheight, int fill) {
@@ -240,7 +242,7 @@ public class Start_Maske extends JPanel implements Observer {
         } else {
             konfigSchritt.setText(status.getApplName());
             applStatus.setText(status.getActState().toString());
-            applNr.setText("" + status.getNumber());
+            applNr.setText("" + (status.getNumber()+1));
 
         }
     }
