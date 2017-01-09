@@ -38,15 +38,13 @@ public class Start_Maske extends JPanel implements Observer {
     private JCheckBoxMenuItem item;
     private  boolean kurzZeichenOK = false;
     private SequenceManager manager = null;
-    private StringVerifier verivier = null;
 
     //Konstruktor
     public Start_Maske() {
         manager = new SequenceManager();
         manager.addObserver(this);
-        verivier = new StringVerifier();
         setLayout(new GridBagLayout());
-        example();
+        initComponent();
     }
 
     //Statische Methode um ein Fenster zu erzeugen. Konstruktor von Start_Maske wir hier aufgerufen
@@ -63,7 +61,7 @@ public class Start_Maske extends JPanel implements Observer {
     }
 
     //Komponenten hinzufuegen
-    private void example() {
+    private void initComponent() {
         //JLabel für Maschinenummer erzeugt
         addGB(new JLabel("Maschinenummer"), gridx = 0, gridy = 0);
         addGB(fieldMaschNr = new JLabel(), gridx = 1, gridy = 0);
@@ -88,7 +86,7 @@ public class Start_Maske extends JPanel implements Observer {
 
         //Kurzzeichen Beschriftung und Textfeld zum eintragen des Kurzzeichens
         // AktionListener hinzugefuegt um start_konfiguration Button frei zu geben
-        addGB(new JLabel("Ihr_Kurz_Zeichen"), gridx = 0, gridy = 3);
+        addGB(new JLabel("Ihr Kurzzeichen (Mit enter bestaetigen)  "), gridx = 0, gridy = 3);
         addGB(kurzZeichen = new JTextField(), gridx = 1, gridy = 3);
         kurzZeichen.setPreferredSize(new Dimension(100, 30));
         kurzZeichen.addActionListener(new ActionListener() {
@@ -113,16 +111,19 @@ public class Start_Maske extends JPanel implements Observer {
         addGB(new JLabel("Aktueller Konfigurationsschritt "), gridx = 0, gridy = 4);
         addGB(konfigSchritt = new JTextField(), gridx = 1, gridy = 4);
         konfigSchritt.setPreferredSize(new Dimension(190, 30));
+        konfigSchritt.setEnabled(false);
 
         //Anzeigebereich welchen Status die Applikation hat
-        addGB(new JLabel("Status"), gridx = 2, gridy = 4,gridwidth = 1,gridheight = 1);
+        addGB(new JLabel("Status  "), gridx = 2, gridy = 4,gridwidth = 1,gridheight = 1);
         addGB(applStatus = new JTextField(), gridx = 3, gridy = 4);
         applStatus.setPreferredSize(new Dimension(85, 30));
+        applStatus.setEnabled(false);
 
         //Anzeigebereich welche ApplikationsNummer gerade laeuft
         addGB(new JLabel("Applikations Nummer"), gridx = 0, gridy = 5);
         addGB(applNr = new JTextField(), gridx = 1, gridy = 5);
         applNr.setPreferredSize(new Dimension(30, 30));
+        applNr.setEnabled(false);
 
         //Start Button mit AktionListener verbunden
         addGB(start_konfiguration = new JButton("Start Konfiguration"), gridx = 1, gridy = 6, weightx = 0, weighty = 3);
@@ -139,7 +140,6 @@ public class Start_Maske extends JPanel implements Observer {
                 } else if (kurzZeichenOK == false) {
                     JOptionPane.showMessageDialog(null, "Bitte Kurzzeichen pruefen");
                 }
-
             }
         });
     }
@@ -149,45 +149,23 @@ public class Start_Maske extends JPanel implements Observer {
      */
     private void initMaschinenummer() {
         try {
-            fieldMaschNr.setText(verivier.getVerifiedMachineNumber());
+            fieldMaschNr.setText(StringVerifier.getVerifiedMachineNumber());
         } catch (ReadWriteException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
     }
 
-
-
     //Methoden zum Hinzufuegen von Komponenten mit den benoetigten GridBagConstraints
     private void addGB(Component component, int gridx, int gridy) {
-        addGB(component, gridx, gridy, 1, 1, EAST, 0.0, 0.0, WEST, new Insets(0, 0, 0, 0), 0, 0);
-    }
-
-    private void addGB(Component component, int gridx, int gridy, int gridwidth) {
-        addGB(component, gridx, gridy, gridwidth, 1, WEST, 0.0, 0.0, WEST, new Insets(0, 0, 0, 0), 0, 0);
+        addGB(component, gridx, gridy, 1, 1, EAST, 0.0, 0.0, WEST, new Insets(30, 0, 0, 0), 0, 0);
     }
 
     private void addGB(Component component, int gridx, int gridy, int gridwidth, int gridheight) {
-        addGB(component, gridx, gridy, gridwidth, gridheight, WEST, 0.0, 0.0, EAST, new Insets(0, 0, 0, 0), 0, 0);
-    }
-
-    private void addGB(Component component, int gridx, int gridy, int gridwidth, int gridheight, int fill) {
-        addGB(component, gridx, gridy, gridwidth, gridheight, fill, 0.0, 0.0, WEST, new Insets(0, 0, 0, 0), 0, 0);
+        addGB(component, gridx, gridy, gridwidth, gridheight, WEST, 0.0, 0.0, EAST, new Insets(30, 0, 0, 0), 0, 0);
     }
 
     private void addGB(Component component, int gridx, int gridy, double weightx, double weighty) {
-        addGB(component, gridx, gridy, 1, 1, WEST, weightx, weighty, WEST, new Insets(0, 0, 0, 0), 0, 0);
-    }
-
-    private void addGB(Component component, int gridx, int gridy, double weightx, double weighty, int ipadx, int ipady) {
-        addGB(component, gridx, gridy, 1, 1, WEST, weightx, weighty, WEST, new Insets(0, 0, 0, 0), ipadx, ipady);
-    }
-
-    private void addGB(Component component, int gridx, int gridy, double weightx, double weighty, int anchor) {
-        addGB(component, gridx, gridy, 1, 1, WEST, weightx, weighty, anchor, new Insets(0, 0, 0, 0), 0, 0);
-    }
-
-    private void addGB(Component component, int gridx, int gridy, double weightx, double weighty, int anchor, Insets insets) {
-        addGB(component, gridx, gridy, 1, 1, WEST, weightx, weighty, anchor, insets, 0, 0);
+        addGB(component, gridx, gridy, 1, 1, WEST, weightx, weighty, EAST, new Insets(30, 0, 0, 0), 0, 0);
     }
 
     private void addGB(Component component, int gridx, int gridy, int gridwidth, int gridheight,
