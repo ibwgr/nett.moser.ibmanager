@@ -86,7 +86,7 @@ public class Start_Maske extends JPanel implements Observer {
 
         //Kurzzeichen Beschriftung und Textfeld zum eintragen des Kurzzeichens
         // AktionListener hinzugefuegt um start_konfiguration Button frei zu geben
-        addGB(new JLabel("Ihr Kurzzeichen (Mit enter bestaetigen)  "), gridx = 0, gridy = 3);
+        addGB(new JLabel("Ihr Kurzzeichen (Mit Enter bestaetigen)  "), gridx = 0, gridy = 3);
         addGB(kurzZeichen = new JTextField(), gridx = 1, gridy = 3);
         kurzZeichen.setPreferredSize(new Dimension(100, 30));
         kurzZeichen.addActionListener(new ActionListener() {
@@ -221,7 +221,6 @@ public class Start_Maske extends JPanel implements Observer {
             konfigSchritt.setText(status.getApplName());
             applStatus.setText(status.getActState().toString());
             applNr.setText("" + (status.getNumber()+1));
-
         }
     }
 }
