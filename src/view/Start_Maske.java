@@ -108,7 +108,7 @@ public class Start_Maske extends JPanel implements Observer {
         });
 
         //Anzeigebereich welche Applikation im Moment laeuft
-        addGB(new JLabel("Aktueller Konfigurationsschritt "), gridx = 0, gridy = 4);
+        addGB(new JLabel("Applikations Name "), gridx = 0, gridy = 4);
         addGB(konfigSchritt = new JTextField(), gridx = 1, gridy = 4);
         konfigSchritt.setPreferredSize(new Dimension(190, 30));
         konfigSchritt.setEnabled(false);
@@ -135,6 +135,9 @@ public class Start_Maske extends JPanel implements Observer {
                 if (item.getState() && kurzZeichenOK) {
                     manager.addMessageToProtocol("Kurzzeichen: " + kurzZeichen.getText());
                     new Thread(manager).start();
+                    applNr.setEnabled(true);
+                    applStatus.setEnabled(true);
+                    konfigSchritt.setEnabled(true);
                 } else if ((item.getState()) == false) {
                     JOptionPane.showMessageDialog(null, "Bitte Maschinenummer pruefen");
                 } else if (kurzZeichenOK == false) {
