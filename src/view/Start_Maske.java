@@ -27,17 +27,17 @@ import static java.awt.GridBagConstraints.WEST;
  */
 public class Start_Maske extends JPanel implements Observer {
 
-    // Alle constraint Felder
-    private int gridx, gridy, gridwidth, gridheight, fill, anchor, ipadx, ipady;
+    // Alle benötigten constraint Felder
+    private int    gridx, gridy, gridwidth, gridheight;
     private double weightx, weighty;
-    private Insets insets;
+
     //Instanz Variablem
-    private JTextField kurzZeichen, konfigSchritt, applStatus, applNr;
-    private JLabel fieldMaschNr;
-    private JButton start_konfiguration,beenden;
+    private JTextField        kurzZeichen, konfigSchritt, applStatus, applNr;
+    private JLabel            fieldMaschNr;
+    private JButton           start_konfiguration,beenden;
     private JCheckBoxMenuItem item;
-    private  boolean kurzZeichenOK = false;
-    private SequenceManager manager = null;
+    private  boolean          kurzZeichenOK = false;
+    private SequenceManager   manager = null;
 
     //Konstruktor
     private Start_Maske() {
@@ -155,7 +155,6 @@ public class Start_Maske extends JPanel implements Observer {
                 System.exit(0);
             }
         });
-
     }
 
     /**
@@ -191,13 +190,10 @@ public class Start_Maske extends JPanel implements Observer {
         constraints.gridy = gridy;
         constraints.gridwidth = gridwidth;
         constraints.gridheight = gridheight;
-        constraints.fill = fill;
         constraints.weightx = weightx;
         constraints.weighty = weighty;
         constraints.anchor = anchor;
         constraints.insets = insets;
-        constraints.ipadx = ipadx;
-        constraints.ipady = ipady;
         add(component, constraints);
     }
 
