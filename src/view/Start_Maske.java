@@ -164,7 +164,7 @@ public class Start_Maske extends JPanel implements Observer {
         try {
             fieldMaschNr.setText(StringVerifier.getVerifiedMachineNumber());
         } catch (ReadWriteException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage() + "\n" + "                    " + "Programm wird beendet","Fehler",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex.getMessage() + "\n" + "Programm wird beendet","Fehler",JOptionPane.ERROR_MESSAGE);
             System.exit(0);
         }
     }
@@ -213,10 +213,8 @@ public class Start_Maske extends JPanel implements Observer {
         ApplicationStatus status = (ApplicationStatus) arg;
 
         if (status.getActState() == AppInfo.ERROR) {
-            int choice = JOptionPane.showOptionDialog(null, status.getApplName(), "Fehlermeldung", JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE, null, null, null);
-            if (choice == JOptionPane.YES_OPTION) {
-                System.exit(0);
-            }
+            int choice = JOptionPane.showOptionDialog(null, status.getApplName() + "\n Programm wir beendet!!", "Fehlermeldung", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE, null, null, null);
+            System.exit(0);
 
         } else if (status.getActState() == AppInfo.TERMINATED) {
             konfigSchritt.setText(status.getApplName());
