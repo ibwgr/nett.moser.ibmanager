@@ -27,20 +27,20 @@ import static java.awt.GridBagConstraints.WEST;
  */
 public class Start_Maske extends JPanel implements Observer {
 
-    // Alle constraint Felder
-    private int gridx, gridy, gridwidth, gridheight, fill, anchor, ipadx, ipady;
+    // Alle benötigten constraint Felder
+    private int    gridx, gridy, gridwidth, gridheight;
     private double weightx, weighty;
-    private Insets insets;
+
     //Instanz Variablem
-    private JTextField kurzZeichen, konfigSchritt, applStatus, applNr;
-    private JLabel fieldMaschNr;
-    private JButton start_konfiguration;
+    private JTextField        kurzZeichen, konfigSchritt, applStatus, applNr;
+    private JLabel            fieldMaschNr;
+    private JButton           start_konfiguration,beenden;
     private JCheckBoxMenuItem item;
-    private  boolean kurzZeichenOK = false;
-    private SequenceManager manager = null;
+    private  boolean          kurzZeichenOK = false;
+    private SequenceManager   manager = null;
 
     //Konstruktor
-    public Start_Maske() {
+    private Start_Maske() {
         manager = new SequenceManager();
         manager.addObserver(this);
         setLayout(new GridBagLayout());
@@ -125,7 +125,7 @@ public class Start_Maske extends JPanel implements Observer {
         applNr.setPreferredSize(new Dimension(30, 30));
         applNr.setEnabled(false);
 
-        //Start Button mit AktionListener verbunden
+        //Start Button um konfiguration zu starten. Button mit AktionListener verbunden
         addGB(start_konfiguration = new JButton("Start Konfiguration"), gridx = 1, gridy = 6, weightx = 0, weighty = 3);
         start_konfiguration.setEnabled(false);
         start_konfiguration.addActionListener(new ActionListener() {
@@ -145,6 +145,16 @@ public class Start_Maske extends JPanel implements Observer {
                 }
             }
         });
+
+        //Button zum Beenden vom Programm
+        addGB(beenden = new JButton("Beenden"), gridx = 2, gridy = 6);
+        beenden.setEnabled(false);
+        beenden.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
     }
 
     /**
@@ -154,7 +164,8 @@ public class Start_Maske extends JPanel implements Observer {
         try {
             fieldMaschNr.setText(StringVerifier.getVerifiedMachineNumber());
         } catch (ReadWriteException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
+            JOptionPane.showMessageDialog(null, ex.getMessage() + "\n" + "                    " + "Programm wird beendet","Fehler",JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
         }
     }
 
@@ -168,7 +179,7 @@ public class Start_Maske extends JPanel implements Observer {
     }
 
     private void addGB(Component component, int gridx, int gridy, double weightx, double weighty) {
-        addGB(component, gridx, gridy, 1, 1, WEST, weightx, weighty, EAST, new Insets(30, 0, 0, 0), 0, 0);
+        addGB(component, gridx, gridy, 1, 1, WEST, weightx, weighty, WEST, new Insets(30, 0, 0, 0), 0, 0);
     }
 
     private void addGB(Component component, int gridx, int gridy, int gridwidth, int gridheight,
@@ -179,13 +190,10 @@ public class Start_Maske extends JPanel implements Observer {
         constraints.gridy = gridy;
         constraints.gridwidth = gridwidth;
         constraints.gridheight = gridheight;
-        constraints.fill = fill;
         constraints.weightx = weightx;
         constraints.weighty = weighty;
         constraints.anchor = anchor;
         constraints.insets = insets;
-        constraints.ipadx = ipadx;
-        constraints.ipady = ipady;
         add(component, constraints);
     }
 
@@ -217,7 +225,8 @@ public class Start_Maske extends JPanel implements Observer {
             //Ausstieg aus Programm
             if (status.getActState()== AppInfo.TERMINATED){
                 JOptionPane.showMessageDialog(null, "Die Konfiguration wurde erfolgreich beendet");
-                System.exit(0);
+                beenden.setEnabled(true);
+                start_konfiguration.setEnabled(false);
             }
 
         } else {
