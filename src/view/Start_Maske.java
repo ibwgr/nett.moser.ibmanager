@@ -40,7 +40,7 @@ public class Start_Maske extends JPanel implements Observer {
     private SequenceManager manager = null;
 
     //Konstruktor
-    public Start_Maske() {
+    private Start_Maske() {
         manager = new SequenceManager();
         manager.addObserver(this);
         setLayout(new GridBagLayout());
@@ -165,7 +165,8 @@ public class Start_Maske extends JPanel implements Observer {
         try {
             fieldMaschNr.setText(StringVerifier.getVerifiedMachineNumber());
         } catch (ReadWriteException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
+            JOptionPane.showMessageDialog(null, ex.getMessage() + "\n" + "                    " + "Programm wird beendet","Fehler",JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
         }
     }
 
@@ -229,6 +230,7 @@ public class Start_Maske extends JPanel implements Observer {
             if (status.getActState()== AppInfo.TERMINATED){
                 JOptionPane.showMessageDialog(null, "Die Konfiguration wurde erfolgreich beendet");
                 beenden.setEnabled(true);
+                start_konfiguration.setEnabled(false);
             }
 
         } else {
