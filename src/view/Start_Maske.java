@@ -34,7 +34,7 @@ public class Start_Maske extends JPanel implements Observer {
     //Instanz Variablem
     private JTextField kurzZeichen, konfigSchritt, applStatus, applNr;
     private JLabel fieldMaschNr;
-    private JButton start_konfiguration;
+    private JButton start_konfiguration,beenden;
     private JCheckBoxMenuItem item;
     private  boolean kurzZeichenOK = false;
     private SequenceManager manager = null;
@@ -125,7 +125,7 @@ public class Start_Maske extends JPanel implements Observer {
         applNr.setPreferredSize(new Dimension(30, 30));
         applNr.setEnabled(false);
 
-        //Start Button mit AktionListener verbunden
+        //Start Button um konfiguration zu starten. Button mit AktionListener verbunden
         addGB(start_konfiguration = new JButton("Start Konfiguration"), gridx = 1, gridy = 6, weightx = 0, weighty = 3);
         start_konfiguration.setEnabled(false);
         start_konfiguration.addActionListener(new ActionListener() {
@@ -145,6 +145,17 @@ public class Start_Maske extends JPanel implements Observer {
                 }
             }
         });
+
+        //Button zum Beenden vom Programm
+        addGB(beenden = new JButton("Beenden"), gridx = 2, gridy = 6);
+        beenden.setEnabled(false);
+        beenden.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+
     }
 
     /**
@@ -168,7 +179,7 @@ public class Start_Maske extends JPanel implements Observer {
     }
 
     private void addGB(Component component, int gridx, int gridy, double weightx, double weighty) {
-        addGB(component, gridx, gridy, 1, 1, WEST, weightx, weighty, EAST, new Insets(30, 0, 0, 0), 0, 0);
+        addGB(component, gridx, gridy, 1, 1, WEST, weightx, weighty, WEST, new Insets(30, 0, 0, 0), 0, 0);
     }
 
     private void addGB(Component component, int gridx, int gridy, int gridwidth, int gridheight,
@@ -217,7 +228,7 @@ public class Start_Maske extends JPanel implements Observer {
             //Ausstieg aus Programm
             if (status.getActState()== AppInfo.TERMINATED){
                 JOptionPane.showMessageDialog(null, "Die Konfiguration wurde erfolgreich beendet");
-                System.exit(0);
+                beenden.setEnabled(true);
             }
 
         } else {
