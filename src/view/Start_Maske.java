@@ -213,8 +213,9 @@ public class Start_Maske extends JPanel implements Observer {
         ApplicationStatus status = (ApplicationStatus) arg;
 
         if (status.getActState() == AppInfo.ERROR) {
-            int choice = JOptionPane.showOptionDialog(null, status.getApplName() + "\n Programm wir beendet!!", "Fehlermeldung", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE, null, null, null);
-            System.exit(0);
+            int choice = JOptionPane.showOptionDialog(null, status.getApplName(), "Fehlermeldung", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE, null, null, null);
+            beenden.setEnabled(true);
+            start_konfiguration.setEnabled(false);
 
         } else if (status.getActState() == AppInfo.TERMINATED) {
             konfigSchritt.setText(status.getApplName());
