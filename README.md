@@ -13,7 +13,7 @@ Die Setup-Datei befindet sich ebenfalls im Module rsrc des Projekts.
 Config-Files:
 C:\temp\Configuration_A2231E0305.xml
 C:\tcommc\exe\machinnr.ini
-Im Root-Pfad des IB_Manager z.B:
+Im Root-Pfad des IB_Manager bei IntelliJ z.B:
 C:\Users\Nett\Documents\IBW\IB_Manager\out\production\StepConfigurations.xml
 C:\Users\Nett\Documents\IBW\IB_Manager\out\production\PathConfig.xml
 
