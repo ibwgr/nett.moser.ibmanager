@@ -138,6 +138,7 @@ public class Start_Maske extends JPanel implements Observer {
                     applNr.setEnabled(true);
                     applStatus.setEnabled(true);
                     konfigSchritt.setEnabled(true);
+                    start_konfiguration.setEnabled(false);
                 } else if ((item.getState()) == false) {
                     JOptionPane.showMessageDialog(null, "Bitte Maschinenummer pruefen");
                 } else if (kurzZeichenOK == false) {
