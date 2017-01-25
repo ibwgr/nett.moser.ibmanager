@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Conditions>
+  <Step>
+    <CharactName>MASCHINENTYP</CharactName>
+    <CharactValue>L68</CharactValue>
+    <PreArgs></PreArgs>
+    <ApplPath>c:\temp\</ApplPath>
+    <ApplName>IbManagerApp.exe</ApplName>
+    <PostArgs>Condition1 Maschinentyp</PostArgs>
+    <CondType>BA</CondType>
+  </Step>
+  <Step>
+    <CharactName>BRIGHTLINE_FIBER</CharactName>
+    <CharactValue>JA</CharactValue>
+    <PreArgs></PreArgs>
+    <ApplPath>c:\temp\</ApplPath>
+    <ApplName>IbManagerApp.exe</ApplName>
+    <PostArgs>Condition2 Brightline</PostArgs>
+    <CondType>BA</CondType>
+  </Step>
+  <Step>
+    <CharactName>LAND</CharactName>
+    <CharactValue>USA</CharactValue>
+    <PreArgs>java -jar</PreArgs>
+    <ApplPath>c:\temp\</ApplPath>
+    <ApplName>Uhr.jar</ApplName>
+    <PostArgs></PostArgs>
+    <CondType>BA</CondType>
+  </Step>
+  <Step>
+    <CharactName>DUESENINSPEKTION</CharactName>
+    <CharactValue>JA</CharactValue>
+    <PreArgs></PreArgs>
+    <ApplPath>c:\temp\</ApplPath>
+    <ApplName>IbBatch.bat</ApplName>
+    <PostArgs></PostArgs>
+    <CondType>BA</CondType>
+  </Step>
+</Conditions>
