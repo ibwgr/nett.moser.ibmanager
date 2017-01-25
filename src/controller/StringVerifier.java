@@ -5,7 +5,7 @@ import model.ReadWriteException;
 import model.XmlHandler;
 
 /**
- * Verifiziert einen String ob er den Anforderungen gemäss Beschreibung entspricht
+ * Verifiziert einen String ob er den Anforderungen gemaess Beschreibung entspricht
  *
  * Created by Nett on 29.12.2016.
  * @author Nett
@@ -13,8 +13,8 @@ import model.XmlHandler;
 public class StringVerifier {
 
     /**
-     * Gibt die Maschinennummer zurück wenn sie gültig ist,
-     * sonst wir eine ReadWriteException geworfen.
+     * Gibt die Maschinennummer zurueck wenn sie gueltig ist,
+     * sonst wird eine ReadWriteException mit entsprechender Meldung geworfen.
      *
      * @return machNumber
      * @throws ReadWriteException
@@ -29,9 +29,9 @@ public class StringVerifier {
     }
 
     /**
-     * Prüft den von der Methode XmlHandler.readPathFromPathConfig(searchPath)
-     * zurückgegebene String auf null oder Empty und löst im Fehlerfall eine
-     * ReadWriteException zurück
+     * Prueft den von der Methode XmlHandler.readPathFromPathConfig(searchPath)
+     * zurueckgegebene String auf null oder Empty und wirft im Fehlerfall eine
+     * ReadWriteException
      *
      * @param searchPath
      * @return
@@ -47,13 +47,13 @@ public class StringVerifier {
     }
 
     /**
-     * Verifiziert einen String ober er folgenden Anforderungen entspricht.
+     * Verifiziert den String machNumber ober er folgenden Anforderungen entspricht.
      *
-     * Die Maschinennummer darf weder Null noch Empty sein. Die Länge ist
+     * Die Maschinennummer darf weder Null noch Empty sein. Die Laenge ist
      * genau 10, und an der Stelle 0 und 5 muss ein Buchstabe sein.
-     * Alle anderen Ziffern müssen Zahlen sein.
+     * Alle anderen Ziffern muessen Zahlen sein.
      *
-     * @param machNumber
+     * @param machNumber Maschinennummer
      * @return true wenn valid
      */
     private static boolean isMachineNumberValid(String machNumber){
@@ -77,7 +77,7 @@ public class StringVerifier {
     }
 
     /**
-     * Prüft ob der String Null oder Empty ist.
+     * Prueft ob der String Null oder Empty ist.
      *
      * @param stringIn
      * @return true wenn null oder Empty
@@ -93,9 +93,9 @@ public class StringVerifier {
     }
 
     /**
-     * Prüft einen String ob er vom Index start bis end nur aus Zahlen besteht.
+     * Prueft einen String ob er vom Index start bis end nur aus Zahlen besteht.
      *
-     * @param machNumber zu prüfender String
+     * @param machNumber zu pruefender String
      * @param start
      * @param end
      * @return true wenn der String vom Index start bis end nur aus Zahlen besteht

@@ -16,7 +16,7 @@ import java.net.URISyntaxException;
 import java.security.CodeSource;
 
 /**
- * Dient zu Lesen von XML-Dateien
+ * Die Klasse stellt Methoden zum Lesen von XML-Dateien zu Verfuegung
  *
  * Created by Nett on 29.12.2016.
  * @author Nett
@@ -25,7 +25,7 @@ public class XmlHandler {
 
     /**
      * Gibt den mit dem Suchbegriff searchPath definierten Pfad
-     * aus der Datei PathConfig.xml zurück.
+     * aus der Datei PathConfig.xml zurueck.
      * Wirft im Fehlerfall oder wenn der Suchbegriff nicht gefunden wurde eine ReadWriteException
      *
      * @param searchPath Suchbegriff in PathConfig.xml
@@ -75,7 +75,7 @@ public class XmlHandler {
     }
 
     /**
-     *Gibt eine Liste aller Steps-Elemente zurück,
+     *Gibt eine Liste aller Steps-Elemente zurueck,
      *die in StepConfigurations.xml definiert wurden
      *Wirft im Fehlerfall eine ReadWriteException
      *
@@ -107,8 +107,8 @@ public class XmlHandler {
     }
 
     /**
-     * Gibt das Element des Suchbegriffs searchElement aus dem Betriebsauftrag
-     * in der Bsp-Form Configuration_A2231E0305.xml der aktuellen Maschinennummer zurück.
+     * Gibt das Element des Suchbegriffs searchElement aus dem
+     * Betriebsauftrag der aktuellen Maschinennummer(Bsp. Configuration_A2231E0305.xml)zurueck.
      * Wirft im Fehlerfall oder wenn das Element nicht gefunden wird eine ReadWriteException
      *
      * @return baElement das Element das mit dem Suchbegriff gefunden wurde
@@ -158,10 +158,10 @@ public class XmlHandler {
     }
 
     /**
-     * Gibt den Root-Pfad zurück von dem aus die Applikation ausgeführt wird
+     * Gibt den Root-Pfad zurueck von dem aus die Applikation ausgefuehrt wird
      * Wirft eine ReadWriteException wenn der Pfad nicht erstellt werden konnte
      *
-     * @return
+     * @return Root-Pfad der Applikation
      * @throws ReadWriteException
      */
     private static String getApplicatonPath()throws  ReadWriteException{

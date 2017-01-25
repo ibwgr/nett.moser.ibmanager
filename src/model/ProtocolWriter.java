@@ -16,8 +16,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Erstellt das Protokoll mit Maschinennummer, Datum, Kurzzeichen des Prüfers.
- * Pro und ausgeführte Anwendung wird ein Eintrag mit Statusmeldung gemacht.
+ * Erstellt das Protokoll mit Maschinennummer, Datum und Kurzzeichen des Pruefers.
+ * Pro und ausgefuehrte Anwendung wird ein Eintrag mit Statusmeldung gemacht.
  * Das Protokoll wird in dem im PathConfig.xml definierten Pfad gespeichert.
  *
  * Created by Nett on 01.01.2017.
@@ -26,7 +26,9 @@ import java.util.List;
 public class ProtocolWriter {
 
     /**
-     * Erstellt das Prüfprotokoll aus dem Inhalt der Liste applNameList
+     * Erstellt das Protokoll mit Maschinennummer, Datum und Kurzzeichen des Pruefers.
+     * Pro und ausgefuehrte Anwendung wird ein Eintrag mit Statusmeldung gemacht.
+     * Das Protokoll wird in dem im PathConfig.xml definierten Pfad gespeichert.
      *
      * @param applNameList
      * @throws ProtocolWriteException

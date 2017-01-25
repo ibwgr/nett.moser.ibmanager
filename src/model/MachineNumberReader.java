@@ -5,8 +5,7 @@ import controller.StringVerifier;
 import java.io.*;
 
 /**
- * Die Klasse liest die Maschinennummer aus dem File das in der Variable path
- * definiert ist die im Konstruktor übergeben wird.
+ * Die Klasse liest die Maschinennummer aus einem im PathConfig.xml definierten File
  *
  * Created by Nett on 28.12.2016.
  * @author Nett
@@ -14,7 +13,8 @@ import java.io.*;
 public class MachineNumberReader {
 
     /**
-     * Gibt die Machinennummer zurück die aus dem File datei ausgelsen wird zurück.
+     * Gibt die Machinennummer zurueck die aus dem File gelesen wird,
+     * dessen Pfad im PathConfig.xml unter dem Namen Maschinennummer definiert ist.
      * Wirft bei FileNotFoundException oder IOException eine ReadWriteException
      * mit einer entsprechenden Meldung.
      *

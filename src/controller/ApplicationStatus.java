@@ -2,7 +2,7 @@ package controller;
 
 /**
  * Beschreibt eine externe Applikation mit Name ,Nummer und aktuellem Status
- * Status: RUNNING, FINISH, ERROR
+ * Status: RUNNING, FINISH, ERROR, TERMINATED
  *
  * Created by Nett on 31.12.2016.
  * @author Nett
