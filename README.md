@@ -1,6 +1,6 @@
 Semesterarbeit NDK HF Grundlagen Software-Entwicklung 
-Hans-Jürg Nett
-Harry Moser
+
+Hans-Jürg Nett und Harry Moser
 
 IB-Manager
 
@@ -32,3 +32,5 @@ C:\temp\IbManagerApp.exe
 C:\temp\Uhr.jar
 
 C:\temp\IbBatch.bat
+
+Im Modul doc ist die aus IntelliJ erstellte Java-Doc abgelegt. Die Dokumentation kann über die Datei index.html gestartet werden.
