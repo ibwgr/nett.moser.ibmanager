@@ -19,8 +19,8 @@ import static java.awt.GridBagConstraints.EAST;
 import static java.awt.GridBagConstraints.WEST;
 
 /**
- * Diese Klasse enthält die Start_Maske User Interface. Das Design entstand mit einem Gridbaglayout. Um zu starten muss die
- * Methode fenster_erstellen() ausgeführt werden.
+ * Diese Klasse enthaelt die Start_Maske User Interface. Das Design entstand mit einem Gridbaglayout. Um zu starten muss die
+ * Methode fenster_erstellen() ausgefuehrt werden.
  * Created by Moser on 31.12.2016.
  *
  * @author Moser
@@ -204,7 +204,7 @@ public class Start_Maske extends JPanel implements Observer {
     }
 
     /**
-     * Update Methode von Observable ueberschrieben um vom SequenzManager den aktuellen Status der externen Applikationen zu erhalten
+     * Update Methode von Observable um vom SequenzManager den aktuellen Status der externen Applikationen zu erhalten
      *
      * @param o
      * @param arg

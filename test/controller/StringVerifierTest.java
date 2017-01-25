@@ -28,8 +28,8 @@ public class StringVerifierTest {
     public static class getVerifiedMachineNumber {
 
         /**
-         * Testet ob eine gültige Maschinennummer wie gewünscht wieder
-         * zurückgegeben wird
+         * Testet ob eine gueltige Maschinennummer wie gewuenscht wieder
+         * zurueckgegeben wird
          */
         @Test
         public void mockitoFake_validMachineNumber_returnsMachNumberIn() {
@@ -127,7 +127,7 @@ public class StringVerifierTest {
     }
 
     /**
-     * Prüft ob der im jeweiligen Test übergebene fehlerhafte String
+     * Prueft ob der im jeweiligen Test uebergebene fehlerhafte String
      * machnumberIn eine ReadWriteException wirft.
      *
      * @param machnumberIn
@@ -150,8 +150,8 @@ public class StringVerifierTest {
     public static class getVerifiedPathFromPathConfig {
 
         /**
-         * Testet ob ein gültiger Pfad auch wieder zurückgegeben wird
-         * Ein Pfad ist gültig wenn er nicht Null oder Empty ist
+         * Testet ob ein gueltiger Pfad auch wieder zurueckgegeben wird
+         * Ein Pfad ist gueltig wenn er nicht Null oder Empty ist
          */
         @Test
         public void mockitoFake_withValidPathInMaschinennummer_returnsPathIn() {

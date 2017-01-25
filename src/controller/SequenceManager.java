@@ -16,7 +16,7 @@ import java.util.Observable;
 /**
  * Die Klasse beschreibt den sequenziellen Ablauf der Applikation.
  * Als Observable benachrichtigt sie die GUI/Konsole über den Zustand der
- * aktuell ausgeführten externen Applikation
+ * aktuell ausgefuehrten externen Applikation
  *
  * Created by Nett on 29.12.2016.
  * @author Nett
@@ -31,9 +31,9 @@ public class SequenceManager extends Observable implements Runnable{
     }
 
     /**
-     * Ist die Einstiegsmethode in die Applikation und wird durch die GUI/Konsole durch Thread.start()
-     * aufgerufen. Sie iteriert in iterateOverStepConditions() über alle Steps, informiert sofern kein
-     * Fehler auftritt die registrierten Observer über die erfolgreiche Ausführung und stösst die Erzeugung des Prokokolls an.
+     * Ist die Einstiegsmethode in die Applikation und wird durch die GUI/Konsole durch Thread.start() in der Methode run()
+     * aufgerufen. Sie iteriert in iterateOverStepConditions() ueber alle Steps, informiert sofern kein
+     * Fehler auftritt die registrierten Observer ueber die erfolgreiche Ausfuehrung und stoesst die Erzeugung des Prokokolls an.
      *
      * Wirft eine ReadWriteException an die GUI/Konsole damit sie da behandelt werden kann
      *
@@ -60,8 +60,8 @@ public class SequenceManager extends Observable implements Runnable{
     }
 
     /**
-     * Liest die NodeList der StepConfigurations.xml und iteriert über dessen Step-Elemente.
-     * In Abhängigkeit des Bedingungstyp wird die im StepConfigurations.xml definierte externe
+     * Liest die NodeList der StepConfigurations.xml und iteriert ueber dessen Step-Elemente.
+     * In Abhaengigkeit des Bedingungstyp wird die im StepConfigurations.xml definierte externe
      * Applikation aufgerufen
      *
      * @throws ReadWriteException
@@ -134,8 +134,8 @@ public class SequenceManager extends Observable implements Runnable{
      * Vergleicht den Wert der im StepConfigurations.xml definierten Bedingunge mit
      * dem entsprechenden Element im Betriebsauftrag
      *
-     * @param stepConfigElement
-     * @param orderElement
+     * @param stepConfigElement Element aus StepConfigurations
+     * @param orderElement Wert aus Betriebsauftrag
      */
     private boolean checkBaStepCondition(Element stepConfigElement, Element orderElement) {
         //Den Wert orderCharactValue der Bedingung aus StepConfigurations.xml lesen
@@ -150,12 +150,12 @@ public class SequenceManager extends Observable implements Runnable{
     }
 
     /**
-     * Führt eine externe Applikation mit optionalen Befehlszeilenargumenten aus
-     * und übergibt der Methode informObserver() die Informationen der aktuell gestarteten externen Applikation
+     * Fuehrt eine externe Applikation mit optionalen Befehlszeilenargumenten aus
+     * und uebergibt der Methode informObserver() die Informationen der aktuell gestarteten externen Applikation
      * Wirft eine ReadWriteException falls die Applikation nicht gestartet werden kann
      *
-     * @param sArrayList
-     * @param number
+     * @param sArrayList Liste bestehend aus Applikationsname und Befehlszeilenargumenten
+     * @param number Nummer der aktuellen Applikation in der Reihenfolge
      * @throws ReadWriteException
      */
     private void runExternalApplication(List<String> sArrayList, int number)throws ReadWriteException{
@@ -188,9 +188,9 @@ public class SequenceManager extends Observable implements Runnable{
     }
 
     /**
-     * Informiert die Observers und übergibt den aktuellen Status der momentan ausgeführten Applikation
+     * Informiert die Observers und uebergibt den aktuellen Status der momentan ausgefuehrten Applikation
      *
-     * @param appState aktueller Status der momentan ausgeführten Applikation
+     * @param appState aktueller Status der momentan ausgefuehrten Applikation
      */
     private void informObserver(ApplicationStatus appState){
         setChanged();
@@ -203,7 +203,7 @@ public class SequenceManager extends Observable implements Runnable{
      * @param name
      * @param number
      * @param actState
-     * @return
+     * @return neue Instanz
      */
     private ApplicationStatus createApplStatus(String name, int number, AppInfo actState){
 
@@ -211,7 +211,7 @@ public class SequenceManager extends Observable implements Runnable{
     }
 
     /**
-     * Fügt dem Protokoll eine Meldung hinzu
+     * Fuegt dem Protokoll eine Meldung hinzu
      *
      * @param message
      */
