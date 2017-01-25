@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Definitions>
+  <Item>
+    <CharactName>Maschinennummer</CharactName>
+    <CharactValue>C:\tcommc\exe\machinnr.ini</CharactValue>
+  </Item>
+  <Item>
+    <CharactName>Betriebsauftrag</CharactName>
+    <CharactValue>c:\temp\</CharactValue>
+  </Item>
+  <Item>
+    <CharactName>Protokoll</CharactName>
+    <CharactValue>c:\temp\SchaltschrankIB_</CharactValue>
+  </Item>
+</Definitions>
