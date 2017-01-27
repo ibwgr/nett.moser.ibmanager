@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>controller</OriginalElement>
+  <nodes>
+    <node x="0.0" y="1386.0">model.ProtocolWriteException</node>
+    <node x="182.0" y="0.0">controller.AppInfo</node>
+    <node x="135.25" y="367.0">controller.SequenceManager</node>
+    <node x="1500.25" y="470.0">controller.StringVerifier</node>
+    <node x="165.75" y="879.0">view.Start_Maske</node>
+    <node x="608.25" y="490.5">model.XmlHandler</node>
+    <node x="1129.25" y="552.0">model.MachineNumberReader</node>
+    <node x="911.25" y="163.0">model.ReadWriteException</node>
+    <node x="0.0" y="101.0">controller.ApplicationStatus</node>
+    <node x="5.5" y="1528.0">model.ProtocolWriter</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="controller.ApplicationStatus" target="controller.AppInfo">
+      <point x="0.0" y="-108.0" />
+      <point x="0.0" y="25.5" />
+    </edge>
+    <edge source="controller.StringVerifier" target="model.ReadWriteException">
+      <point x="0.0" y="-128.0" />
+      <point x="1745.75" y="337.0" />
+      <point x="1209.625" y="337.0" />
+      <point x="127.875" y="46.0" />
+    </edge>
+    <edge source="model.XmlHandler" target="model.ReadWriteException">
+      <point x="0.0" y="-107.5" />
+      <point x="858.75" y="347.0" />
+      <point x="1039.125" y="347.0" />
+      <point x="-42.625" y="46.0" />
+    </edge>
+    <edge source="controller.SequenceManager" target="controller.ApplicationStatus">
+      <point x="-113.25" y="-231.0" />
+      <point x="0.0" y="108.0" />
+    </edge>
+    <edge source="controller.SequenceManager" target="model.ReadWriteException">
+      <point x="113.25" y="-231.0" />
+      <point x="475.0" y="337.0" />
+      <point x="953.875" y="337.0" />
+      <point x="-127.875" y="46.0" />
+    </edge>
+    <edge source="model.MachineNumberReader" target="model.ReadWriteException">
+      <point x="0.0" y="-46.0" />
+      <point x="1304.75" y="347.0" />
+      <point x="1124.375" y="347.0" />
+      <point x="42.625" y="46.0" />
+    </edge>
+    <edge source="view.Start_Maske" target="controller.SequenceManager">
+      <point x="98.0" y="-231.0" />
+      <point x="459.75" y="854.0" />
+      <point x="475.0" y="854.0" />
+      <point x="113.25" y="231.0" />
+    </edge>
+    <edge source="model.ProtocolWriter" target="model.ProtocolWriteException">
+      <point x="0.0" y="-66.5" />
+      <point x="0.0" y="46.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.5312314098750743" x="996.0" y="830.5" />
+  <SelectedNodes>
+    <node>model.ProtocolWriter</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Methods</Category>
+    <Category>Constructors</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
